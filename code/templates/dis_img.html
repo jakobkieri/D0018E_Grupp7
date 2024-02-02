@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('.static', filename='css/style.css') }}">
+    <title>Small Images</title>
+</head>
+
+<body>
+    <h3>Varukorgen</h3>
+    <img src="{{ url_for('static', filename='images/varukorg.png') }}" class="image_small" />
+
+    <h3>Edit Button</h3>
+    <img src="{{ url_for('static', filename='images/edit_button.png') }}" class="image_small" />
+</body>
+</html>
