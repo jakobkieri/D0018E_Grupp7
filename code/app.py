@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, request, url_for, Blueprint, session
 from Customer.customer import customer_bp
 from Admin.admin import admin_bp
+import pymysql
 
 #from itertools import count (???)
 
@@ -89,6 +90,54 @@ def logout():
     session.clear()                     # clears everything from session
     return redirect(url_for("login"))
 
+
+#testing function
+def dockerConnect():
+    # Replace these values with your actual database connection details
+    host = '172.17.0.2'  # or the IP address of your Docker container
+    port = 3306         # port number
+    user = 'root'
+    password = 'bingus'
+    database = 'mydb'
+
+    try:
+        # Connect to the database
+        connection = pymysql.connect(
+            host=host,
+            port=port,
+            user=user,
+            password=password,
+            database=database
+        )
+    
+        with connection.cursor() as cursor:
+            #insert test data into database
+            #sql_query = "INSERT INTO mydb.Accounts VALUES ('bingus@hotmail.com', 'bingus', 'bingus', '2024-02-01', 0);"
+            #cursor.execute(sql_query)
+
+            
+            #take data from database, specifically mydb.Accounts
+            sql_query = "SELECT * FROM mydb.Accounts;"
+            cursor.execute(sql_query)
+
+            # Fetch and print results
+            rows = cursor.fetchall()
+            if rows:
+                print("Fetched data:")
+                for row in rows:
+                    print(row)
+            else:
+                print("No data found.")
+
+        # Commit changes to the database
+        connection.commit()
+    
+        # Close connection
+        connection.close()
+        print('Connection closed')
+
+    except pymysql.Error as e:
+        print('Error connecting to MySQL:', e)
 
 # run on
 if __name__ == '__main__':
