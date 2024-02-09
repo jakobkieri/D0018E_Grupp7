@@ -7,9 +7,9 @@ from admin.admin import admin_bp
 app = Flask(__name__)
 
 
-# Fixing Blueprints
-app.register_blueprint(customer_bp, url_prefix='/Customer')
-app.register_blueprint(admin_bp, url_prefix='/Admin')
+# Fixing Blueprints     ERROR!?
+app.register_blueprint(customer_bp, url_prefix='/customer')
+app.register_blueprint(admin_bp, url_prefix='/admin')
 
 
 '''
