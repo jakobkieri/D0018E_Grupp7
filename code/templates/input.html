@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+        <title>Housequarn</title>
+        </head>
+    <h1> Bingus </h1>
+    <form method="post">
+
+        <input type="text" name="content">
+        <button type="submit">clonk</button>
+    
+
+    </form>
+
+    {% for guide in guides %}
+    <div class="guide">
+        <p>{{ guide['content'] }}</p>
+    </div>
+    {% endfor %}
+</html>
