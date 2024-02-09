@@ -10,19 +10,21 @@ RUN apt-get update \
 WORKDIR /app
 
 # Copy the requirements.txt file into the container at /app
-COPY requirements.txt /app/
+COPY requirements.txt /app
 
 # Install Python packages
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the current directory contents into the container at /app
+# Copy the SQL initialization script into the container at /app
+COPY script.sql /app
+
+# Copy the application code into the container at /app
 COPY . /app/
 
 # Expose port 5001 for Flask app
 EXPOSE 5000
 
-# Copy the SQL initialization script into the container at /app
-COPY script.sql /app/
+
 
 # Command to run the application and initialize the database
-CMD ["sh", "-c", "python code/app.py && mysql -h localhost -u root -ppassword < /app/init.sql"]
+CMD ["sh", "-c", "python code/app.py && mysql -h localhost -u root -ppassword < /app/script.sql"]
