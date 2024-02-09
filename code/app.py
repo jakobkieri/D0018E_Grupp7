@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for, Blueprint, session
-from customer.customer import customer_bp
-from admin.admin import admin_bp
+from Customer.customer import customer_bp
+from Admin.admin import admin_bp
 
 #from itertools import count (???)
 
