@@ -1,30 +1,12 @@
-# Use the official Python image as the base image
-FROM python:3.8-slim
+# Use an official MySQL runtime as the base image
+FROM mysql:latest
 
-# Install build dependencies
-RUN apt-get update \
-    && apt-get install -y build-essential libmariadb-dev-compat pkg-config \
-    && rm -rf /var/lib/apt/lists/*
+# Environment variables
+ENV MYSQL_ROOT_PASSWORD=bingus
+ENV MYSQL_DATABASE=mydb
 
-# Set the working directory inside the container
-WORKDIR /app
+# Copy the SQL file into the Docker image
+COPY script.sql /docker-entrypoint-initdb.d/
 
-# Copy the requirements.txt file into the container at /app
-COPY requirements.txt /app
-
-# Install Python packages
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the SQL initialization script into the container at /app
-COPY script.sql /app
-
-# Copy the application code into the container at /app
-COPY . /app/
-
-# Expose port 5001 for Flask app
-EXPOSE 5000
-
-
-
-# Command to run the application and initialize the database
-CMD ["sh", "-c", "python code/app.py && mysql -h localhost -u root -ppassword < /app/script.sql"]
+# Expose port 3306 to allow external connections to the database
+EXPOSE 3306
