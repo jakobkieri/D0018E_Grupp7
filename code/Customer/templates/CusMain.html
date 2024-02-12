@@ -1,0 +1,29 @@
+{% extends 'CusBase.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+{% for product in products %}
+<form name = "mainProduct" method = "POST" action="{{ url_for('customer.enterProduct')}}">
+    <button class = "main-product" name = "pro_ID" value = "{{product['pro_ID']}}">
+        <div>
+            {{product['pro_name']}}
+        </div>
+        <div class = "main-info" value = "{{product['pro_ID']}}">
+            {{product['pro_info']}}
+        </div>
+        <div class ="main-price" value = "{{product['pro_ID']}}">
+            {{product['price']}}
+        </div>
+    </button>
+</form>
+
+{% endfor %}
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

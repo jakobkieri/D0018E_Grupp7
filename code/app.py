@@ -6,6 +6,7 @@ import pymysql
 #from itertools import count (???)
 
 app = Flask(__name__)
+app.secret_key = "bingus" #secret key for sessions
 
 
 # Fixing Blueprints     ERROR!?
