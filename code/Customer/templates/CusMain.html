@@ -6,22 +6,31 @@
 
 {% block body %}
 
+
+<div class = product-wrapper>
 {% for product in products %}
-<form name = "mainProduct" method = "POST" action="{{ url_for('customer.enterProduct')}}">
+<form class = "main-product-form" name = "mainProduct" method = "POST" action="{{ url_for('customer.enterProduct')}}">
     <button class = "main-product" name = "pro_ID" value = "{{product['pro_ID']}}">
-        <div>
-            {{product['pro_name']}}
+        <div class = "main-image-space">
+            <img class = "main-pro-img" src="../admin/static/images/{{product['pro_img']}}" alt="no image">
         </div>
-        <div class = "main-info" value = "{{product['pro_ID']}}">
-            {{product['pro_info']}}
-        </div>
-        <div class ="main-price" value = "{{product['pro_ID']}}">
-            {{product['price']}}
+        <div class = "main-info-space">
+            <div class = "main-pro-name">
+                {{product['pro_name']}}
+            </div>
+            <div class = "main-info" value = "{{product['pro_ID']}}">
+                {{product['pro_info']}}
+            </div>
+            <div class ="main-price" value = "{{product['pro_ID']}}$">
+                {{product['price']}}
+            </div>
         </div>
     </button>
 </form>
 
 {% endfor %}
+
+</div>
 
 {% endblock %}
 
