@@ -7,17 +7,14 @@ customer_bp = Blueprint('customer', __name__,
 
 
 
-
-
-
 @customer_bp.route("/", methods=["GET", "POST"])
 def customer():
-    connection = pymysql.connect(host='localhost',
-                             user='root',
-                             password='bingus',
-                             database='mydb',
-                             charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor)
+    connection = pymysql.connect(host='localhost',          #apparently connection cannot be global or pymysql commits die
+                            user='root',
+                            password='bingus',
+                            database='mydb',
+                            charset='utf8mb4',
+                            cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
     sql = "SELECT pro_name, pro_img, pro_info, price, pro_ID FROM Products"
     cursor.execute(sql)
@@ -39,11 +36,11 @@ def enterProduct():
 @customer_bp.route("/product", methods=["GET", "POST"])
 def product():
     connection = pymysql.connect(host='localhost',
-                             user='root',
-                             password='bingus',
-                             database='mydb',
-                             charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor)
+                        user='root',
+                        password='bingus',
+                        database='mydb',
+                        charset='utf8mb4',
+                        cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
     sql = "SELECT * FROM Products WHERE pro_ID = " + session["pro_ID"]
     print(sql, file=sys.stderr)

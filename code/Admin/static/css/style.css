@@ -1,3 +1,28 @@
 .image_small {
     width: 30px;
 }
+
+.header {
+    height: 100px;
+    width: 100%;
+}
+
+.profile-button {
+    margin-left: 0;
+}
+
+.profile-button img {
+    height: 90px;
+    width: 90px;
+}
+
+.plus-button {
+    position: absolute;
+    right: 0;
+}
+
+.plus-button img{
+    height: 90px;
+    width: 90px;
+}
+

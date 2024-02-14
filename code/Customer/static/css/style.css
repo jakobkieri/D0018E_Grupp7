@@ -52,8 +52,6 @@
     text-align: left;
 }
 
-.main-pro-
-
 .pro-qty {
     color: red;
     margin-left: 5px;
@@ -64,3 +62,26 @@
     margin-left: 5px;
 }
 
+.header {
+    height: 100px;
+    width: 100%;
+}
+
+.profile-button {
+    margin-left: 0;
+}
+
+.profile-button img {
+    height: 90px;
+    width: 90px;
+}
+
+.cart-button {
+    position: absolute;
+    right: 0;
+}
+
+.cart-button img {
+    height: 90px;
+    width: 90px;
+}
