@@ -30,33 +30,15 @@ def home():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == "POST":
-        username = request.form["username"]
+        userMail = request.form["e-mail"]
         password = request.form["password"]
 
-        #TODO: (MongoDB -> MySQL)
+        #dockerCheckCredentials puts data into session if credentials are correct
+        if not dockerCheckCredentials(userMail, password):
+            return render_template("login.html", error="Invalid email or password")
 
-        '''
-        cursor = accounts.find()
-        for occ in cursor:
-            print("occurences: ")
-            print(occ)
-
-        user_tuple = accounts.find_one({"Username": username, "Password":password})
-        if not user_tuple:
-            return render_template("login.html", error="Invalid username or password")
-        '''
-
-        # Sets session data for data regarding that user, before sending onwards
-        #print("tuple: ", user_tuple)
-        '''
-        session['user_id'] = str(user_tuple["_id"])       
-        session["username"] = user_tuple["Username"]
-        session["role"] = user_tuple["Role"]
-        '''
-
+        print("session data: ", session)
         return redirect(url_for("role_redirect"))
-
-        
     
     # If it's a GET request, render the login form
     return render_template('login.html', error=None)
@@ -65,11 +47,11 @@ def login():
 #redirects depending on the role of user
 @app.route("/role_redirect")
 def role_redirect():
-    if "username" in session:
-        role = session["role"]
-        if role == "admin":
+    if "acc_name" in session:
+        #session["admin"] is defined as a boolean in database
+        if session["admin"]:
             return redirect(url_for("admin.admin"))
-        if role == "customer":
+        else:
             return redirect(url_for("customer.customer"))
     return redirect(url_for("login"))
 
@@ -92,8 +74,9 @@ def logout():
     return redirect(url_for("login"))
 
 
-#testing function
-def dockerConnect():
+#(code given by chatGPT but heavily modified)
+#it checks if credentials are correct. If they are correct, it adds following to session: user_id (mail), username (username), role (1 if admin)
+def dockerCheckCredentials(givenMail, givenPassword):
     # Replace these values with your actual database connection details
     host = '172.17.0.2'  # or the IP address of your Docker container
     port = 3306         # port number
@@ -121,14 +104,22 @@ def dockerConnect():
             sql_query = "SELECT * FROM mydb.Accounts;"
             cursor.execute(sql_query)
 
-            # Fetch and print results
+            validCredentials = False
+
+            # Fetch results
             rows = cursor.fetchall()
             if rows:
-                print("Fetched data:")
                 for row in rows:
-                    print(row)
+                    if(givenMail == row[0] and givenPassword == row[2]):
+                        validCredentials = True
+
+                        session['e-mail'] = row[0]     
+                        session["acc_name"] = row[1]
+                        session["admin"] = row[4]
+                        
             else:
                 print("No data found.")
+                return validCredentials
 
         # Commit changes to the database
         connection.commit()
@@ -136,6 +127,8 @@ def dockerConnect():
         # Close connection
         connection.close()
         print('Connection closed')
+
+        return validCredentials
 
     except pymysql.Error as e:
         print('Error connecting to MySQL:', e)
