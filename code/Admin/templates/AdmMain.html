@@ -6,7 +6,6 @@
 
 {% block body %}
 
-<<<<<<< HEAD
 <div class = "header">
     <a class = "profile-button" href="/login"><img src = "{{url_for('.static', filename = 'images/profile_a.png')}}"></a>
     <a class = "plus-button" href="{{url_for('admin.addProduct')}}"><img src = "{{url_for('.static', filename = 'images/plus_button.png')}}"></a>
@@ -18,16 +17,7 @@
 <form class = "main-product-form" name = "mainProduct" method = "POST" action="{{ url_for('admin.enterProduct')}}">
     <button class = "main-product" name = "pro_ID" value = "{{product['pro_ID']}}">
         <div class = "main-image-space">
-            <img class = "main-pro-img" src="url_for('.static', filename='images/{{product['pro_img']}}'')" alt="no image">
-=======
-
-<div class = product-wrapper>
-{% for product in products %}
-<form class = "main-product-form" name = "mainProduct" method = "POST" action="{{ url_for('admin.enterProduct')}}">     #TODO
-    <button class = "main-product" name = "pro_ID" value = "{{product['pro_ID']}}">
-        <div class = "main-image-space">
-            <img class = "main-pro-img" src="static/images/{{product['pro_img']}}" alt="no image">
->>>>>>> d71a01eb9eceef84e7cc125b3d27a4d838330e53
+            <img class = "main-pro-img" src="{{url_for('.static', filename='images/')}}{{product['pro_img']}}" alt="no image">
         </div>
         <div class = "main-info-space">
             <div class = "main-name">
