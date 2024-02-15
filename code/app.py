@@ -96,7 +96,7 @@ def dockerCheckCredentials(givenMail, givenPassword):
     
         with connection.cursor() as cursor:
             #insert test data into database
-            #sql_query = "INSERT INTO mydb.Accounts VALUES ('bingus@hotmail.com', 'bingus', 'bingus', '2024-02-01', 0);"
+            #sql_query = "INSERT INTO mydb.Accounts VALUES ('bingusBoss@hotmail.com', 'bingusBoss', 'bingusBoss', '2024-02-15', 1);"
             #cursor.execute(sql_query)
 
             
@@ -104,6 +104,7 @@ def dockerCheckCredentials(givenMail, givenPassword):
             sql_query = "SELECT * FROM mydb.Accounts;"
             cursor.execute(sql_query)
 
+            #validCredentials is returned False if it is not verified by finding mathcing credentials
             validCredentials = False
 
             # Fetch results
