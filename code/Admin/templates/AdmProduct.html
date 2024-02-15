@@ -1,15 +1,37 @@
 {% extends 'AdmBase.html' %}
 
 {% block head %}
-
 {% endblock %}
 
 {% block body %}
 
-<div class = "pro-name">{{product['pro_name']}} </div>
-<div class = "pro-info">{{product['pro_info']}}</div>
-<div class = "pro-price>">{{product['price']}} </div>
-<div class = "pro-qty"> {{product['qty']}}</div>
+<div class = "pro-name">
+    <h2> Product Name:  {{product['pro_name']}} </h2>
+</div>
+
+<div class = "pro-info">
+    <h2> Product Information: </h2>
+    <p> {{product['pro_info']}} </p>
+</div>
+
+<div class = "pro-price>">
+    <h2> Price: {{product['price']}} kr </h2>
+
+    <form action="{{ url_for('admin.update_price') }}" method="POST">
+
+        <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
+
+        <label for="new_price">New Price:</label>
+        <input type="number" min=1 max=999999 id="new_price" name="new_price" required><br>
+
+        <input type="submit" value="Update Price">
+    </form>
+
+</div>
+
+<div class = "pro-qty">
+    <h2> Quantity/Amount: {{product['qty']}} </h2>
+</div>
 
 
 {% endblock %}

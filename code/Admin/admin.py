@@ -11,7 +11,7 @@ admin_bp = Blueprint('admin', __name__,
 def admin():
     connection = pymysql.connect(host='localhost',
                              user='root',
-                             password='bingus',     # change password to bingus
+                             password='bingus',
                              database='mydb',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -52,14 +52,13 @@ def addProduct():
 def product():
     connection = pymysql.connect(host='localhost',
                              user='root',
-                             password='bingus',     # change password to bingus
+                             password='bingus',
                              database='mydb',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
-    sql = "SELECT * FROM Products WHERE pro_ID = " + session["pro_ID"]
-    print(sql, file=sys.stderr)
-    cursor.execute(sql)
+    sql = "SELECT * FROM Products WHERE pro_ID = %s"
+    cursor.execute(sql, (session["pro_ID"],))
     result = cursor.fetchone()
     print(result, file=sys.stderr)
     connection.close()
@@ -75,3 +74,32 @@ def enterProduct():
         return redirect(url_for("admin.product"))
     else:
         return redirect(url_for("admin.admin"))
+
+
+@admin_bp.route('/update_price', methods=['POST'])
+def update_price():
+    if "pro_ID" in request.form and "new_price" in request.form:
+
+        connection = pymysql.connect(host='localhost',
+                             user='root',
+                             password='bingus',
+                             database='mydb',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = connection.cursor()
+
+        product_id = request.form['pro_ID']
+        new_price = request.form['new_price']
+
+        sql = "UPDATE Products SET price = %s WHERE pro_ID = %s"
+        params = (new_price, product_id)
+
+        cursor.execute(sql, params)
+        result = cursor.fetchone()
+        print(result, file=sys.stderr)
+        connection.commit()
+        connection.close()
+
+        return redirect(url_for("admin.enterProduct"))  # Product price updated successfully
+    else:
+        return redirect(url_for('admin.admin'))         # Product not found
