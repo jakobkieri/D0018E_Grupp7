@@ -58,7 +58,7 @@ def product():
                              cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
     sql = "SELECT * FROM Products WHERE pro_ID = %s"
-    cursor.execute(sql, (session["pro_ID"],))
+    cursor.execute(sql, (session["pro_ID"]))
     result = cursor.fetchone()
     print(result, file=sys.stderr)
     connection.close()
@@ -76,7 +76,7 @@ def enterProduct():
         return redirect(url_for("admin.admin"))
 
 
-@admin_bp.route('/update_price', methods=['POST'])
+@admin_bp.route('/update_price', methods=["GET", "POST"])
 def update_price():
     if "pro_ID" in request.form and "new_price" in request.form:
 
@@ -100,6 +100,6 @@ def update_price():
         connection.commit()
         connection.close()
 
-        return redirect(url_for("admin.enterProduct"))  # Product price updated successfully
+        return redirect(url_for("admin.product"))  # Product price updated successfully
     else:
         return redirect(url_for('admin.admin'))         # Product not found
