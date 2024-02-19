@@ -76,6 +76,64 @@ def enterProduct():
         return redirect(url_for("admin.admin"))
 
 
+@admin_bp.route('/change_name', methods=["GET", "POST"])
+def change_name():
+    if "pro_ID" in request.form and "new_name" in request.form:
+
+        connection = pymysql.connect(host='localhost',
+                             user='root',
+                             password='bingus',
+                             database='mydb',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = connection.cursor()
+
+        product_id = request.form['pro_ID']
+        new_name = request.form['new_name']
+
+        sql = "UPDATE Products SET pro_name = %s WHERE pro_ID = %s"
+        params = (new_name, product_id)
+
+        cursor.execute(sql, params)
+        result = cursor.fetchone()
+        print(result, file=sys.stderr)
+        connection.commit()
+        connection.close()
+
+        return redirect(url_for("admin.product"))       # Product name updated successfully
+    else:
+        return redirect(url_for('admin.admin'))         # Product not found
+
+
+@admin_bp.route('/change_info', methods=["GET", "POST"])
+def change_info():
+    if "pro_ID" in request.form and "new_info" in request.form:
+
+        connection = pymysql.connect(host='localhost',
+                             user='root',
+                             password='bingus',
+                             database='mydb',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = connection.cursor()
+
+        product_id = request.form['pro_ID']
+        new_info = request.form['new_info']
+
+        sql = "UPDATE Products SET pro_info = %s WHERE pro_ID = %s"
+        params = (new_info, product_id)
+
+        cursor.execute(sql, params)
+        result = cursor.fetchone()
+        print(result, file=sys.stderr)
+        connection.commit()
+        connection.close()
+
+        return redirect(url_for("admin.product"))       # Product information updated successfully
+    else:
+        return redirect(url_for('admin.admin'))         # Product not found
+
+
 @admin_bp.route('/update_price', methods=["GET", "POST"])
 def update_price():
     if "pro_ID" in request.form and "new_price" in request.form:
@@ -100,6 +158,36 @@ def update_price():
         connection.commit()
         connection.close()
 
-        return redirect(url_for("admin.product"))  # Product price updated successfully
+        return redirect(url_for("admin.product"))       # Product price updated successfully
+    else:
+        return redirect(url_for('admin.admin'))         # Product not found
+
+@admin_bp.route('/change_qty', methods=["GET", "POST"])
+def change_qty():
+    if "pro_ID" in request.form and "qty_change" in request.form and "old_qty" in request.form:
+
+        connection = pymysql.connect(host='localhost',
+                             user='root',
+                             password='bingus',
+                             database='mydb',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = connection.cursor()
+
+        product_id = request.form['pro_ID']
+        qty_change = int(request.form['qty_change'])
+        old_qty = int(request.form['old_qty'])
+        new_qty = old_qty + qty_change
+
+        sql = "UPDATE Products SET qty = %s WHERE pro_ID = %s"
+        params = (new_qty, product_id)
+
+        cursor.execute(sql, params)
+        result = cursor.fetchone()
+        print(result, file=sys.stderr)
+        connection.commit()
+        connection.close()
+
+        return redirect(url_for("admin.product"))       # Product quantity updated successfully
     else:
         return redirect(url_for('admin.admin'))         # Product not found
