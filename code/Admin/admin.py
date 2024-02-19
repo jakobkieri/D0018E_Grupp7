@@ -191,3 +191,33 @@ def change_qty():
         return redirect(url_for("admin.product"))       # Product quantity updated successfully
     else:
         return redirect(url_for('admin.admin'))         # Product not found
+
+
+@admin_bp.route('/change_image', methods=["GET", "POST"])
+def change_image():
+    if "pro_ID" in request.form and "newImg" in request.form:
+
+        connection = pymysql.connect(host='localhost',
+                             user='root',
+                             password='bingus',
+                             database='mydb',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+        cursor = connection.cursor()
+
+        product_id = request.form['pro_ID']
+        newImg = request.form['newImg']
+        new_image_path = "/../static/images/" + newImg   # Adjust this path according to your directory structure
+
+        sql = "UPDATE Products SET pro_img = %s WHERE pro_ID = %s"
+        params = (new_image_path, product_id)
+
+        cursor.execute(sql, params)
+        result = cursor.fetchone()
+        print(result, file=sys.stderr)
+        connection.commit()
+        connection.close()
+
+        return redirect(url_for("admin.product"))       # Product image updated successfully
+    else:
+        return redirect(url_for('admin.admin'))         # Product not found

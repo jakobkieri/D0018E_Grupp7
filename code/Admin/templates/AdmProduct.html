@@ -5,6 +5,22 @@
 
 {% block body %}
 
+<div>
+    <img src="{{ product['pro_img'] }}">
+
+    <form action="{{ url_for('admin.change_image') }}" method="POST">
+
+        <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
+
+        <label for="newImg">Select an Image:</label>
+        <input type="file" id="newImg" name="newImg" accept=".png,.jpg"><br><br>
+
+        <input type="submit" value="Change Image">
+
+    </form>
+</div>
+
+
 <div class = "pro-name">
     <h2> Product Name:  {{product['pro_name']}} </h2>
 
