@@ -6,7 +6,7 @@
 {% block body %}
 
 <div>
-    <img src="{{url_for('.static', filename = '/images')}} {{ product['pro_img'] }}">
+    <img src="{{url_for('.static', filename = 'images/')}}{{ product['pro_img'] }}">
 
     <form action="{{ url_for('admin.change_image') }}" method="POST">
 
@@ -16,7 +16,6 @@
         <input type="file" id="newImg" name="newImg" accept=".png,.jpg"><br><br>
 
         <input type="submit" value="Change Image">
-
     </form>
 </div>
 
@@ -51,7 +50,7 @@
 </div>
 
 <div class = "pro-price>">
-    <h2> Price: {{product['price']}} kr </h2>
+    <h2> Price: $ {{product['price']}} </h2>
 
     <form action="{{ url_for('admin.update_price') }}" method="POST">
 

@@ -210,10 +210,9 @@ def change_image():
 
         product_id = request.form['pro_ID']
         newImg = request.form['newImg']
-        new_image_path = "/../static/images/" + newImg   # Adjust this path according to your directory structure
 
         sql = "UPDATE Products SET pro_img = %s WHERE pro_ID = %s"
-        params = (new_image_path, product_id)
+        params = (newImg, product_id)
 
         cursor.execute(sql, params)
         result = cursor.fetchone()
