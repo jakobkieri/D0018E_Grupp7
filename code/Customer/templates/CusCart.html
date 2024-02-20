@@ -17,7 +17,7 @@
 <form class = "main-product-form" name = "mainProduct" method = "POST" action="{{ url_for('customer.enterProduct')}}">
     <button class = "main-product" name = "pro_ID" value = "{{product['pro_ID']}}">
         <div class = "main-image-space">
-            <img class = "main-pro-img" src="../admin/static/images/{{product['pro_img']}}" alt="No image" onerror="this.src='../admin/static/images/no-image.png'">  <!-- If no image found, display default-->
+            <img class = "main-pro-img" src="../admin/static/images/{{product['pro_img']}}" alt="no image">
         </div>
         <div class = "main-info-space">
             <div class = "main-name">

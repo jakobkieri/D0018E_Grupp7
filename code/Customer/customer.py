@@ -52,3 +52,17 @@ def product():
     return render_template("CusProduct.html", title= "Customer Product", product = result)
 
 
+@customer_bp.route("/cart", methods = ["GET", "POST"])
+def cart():
+    connection = pymysql.connect(host=host,
+                    user='root',
+                    password='bingus',
+                    database='mydb',
+                    charset='utf8mb4',
+                    cursorclass=pymysql.cursors.DictCursor)
+    cursor = connection.cursor()
+    sql = "SELECT * FROM Cart WHERE `acc_e-mail` = " + session["acc_name"]
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    print(result, file=sys.stderr)
+    return render_template("CusCart.html", title = "Customer Cart", cartItems = result)
