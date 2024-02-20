@@ -5,6 +5,74 @@
 
 {% block body %}
 
+<div class="product-view">
+
+    <div class = "pro-name">
+        <h2> Product Name:  {{product['pro_name']}} </h2>
+    
+        <form action="{{ url_for('admin.change_name') }}" method="POST">
+    
+            <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
+    
+            <label for="new_name">New Name:</label>
+            <input type="text" id="new_name" name="new_name" required><br>
+    
+            <input type="submit" value="Change Name">
+        </form>
+    </div>
+    
+    <div class = "pro-info">
+        <h2> Product Information: </h2>
+        <p> {{product['pro_info']}} </p> <br>
+    
+        <form action="{{ url_for('admin.change_info') }}" method="POST">
+    
+            <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
+    
+            <label for="new_info">New Info:</label>
+            <input type="text" id="new_info" name="new_info" required><br>
+    
+            <input type="submit" value="Update Info">
+        </form>
+    </div>
+    
+    <div class = "pro-price>">
+        <h2> Price: $ {{product['price']}} </h2>
+    
+        <form action="{{ url_for('admin.update_price') }}" method="POST">
+    
+            <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
+    
+            <label for="new_price">New Price:</label>
+            <input type="number" min=1 max=999999 id="new_price" name="new_price" required><br>
+    
+            <input type="submit" value="Update Price">
+        </form>
+    </div>
+    
+    <div class = "pro-qty">
+        <h2> Quantity/Amount: {{product['qty']}} </h2>
+    
+        <form action="{{ url_for('admin.change_qty') }}" method="POST">
+    
+            <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
+    
+            <label for="qty_change">Add or Remove Amount</label>
+            <input type="number" min=-999999 max=999999 id="qty_change" name="qty_change" required><br>
+    
+            <input type="hidden" name="old_qty" value="{{product['qty']}}">
+    
+            <input type="submit" value="Change Quantity">
+        </form>
+    </div>
+
+    <div>
+        <br> <img class = "image_small" src="{{url_for('.static', filename = 'images/soptunna.png')}}">
+    </div>
+
+</div>
+
+
 <div>
     <img src="{{url_for('.static', filename = 'images/')}}{{ product['pro_img'] }}">
 
@@ -13,71 +81,17 @@
         <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
 
         <label for="newImg">Select an Image:</label>
-        <input type="file" id="newImg" name="newImg" accept=".png,.jpg"><br><br>
+        <input type="file" id="newImg" name="newImg" accept=".png,.jpg"><br>
 
         <input type="submit" value="Change Image">
     </form>
 </div>
 
 
-<div class = "pro-name">
-    <h2> Product Name:  {{product['pro_name']}} </h2>
-
-    <form action="{{ url_for('admin.change_name') }}" method="POST">
-
-        <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
-
-        <label for="new_name">New Name:</label>
-        <input type="text" id="new_name" name="new_name" required><br>
-
-        <input type="submit" value="Change Name">
-    </form>
-</div>
-
-<div class = "pro-info">
-    <h2> Product Information: </h2>
-    <p> {{product['pro_info']}} </p> <br>
-
-    <form action="{{ url_for('admin.change_info') }}" method="POST">
-
-        <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
-
-        <label for="new_info">New Info:</label>
-        <input type="text" id="new_info" name="new_info" required><br>
-
-        <input type="submit" value="Update Info">
-    </form>
-</div>
-
-<div class = "pro-price>">
-    <h2> Price: $ {{product['price']}} </h2>
-
-    <form action="{{ url_for('admin.update_price') }}" method="POST">
-
-        <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
-
-        <label for="new_price">New Price:</label>
-        <input type="number" min=1 max=999999 id="new_price" name="new_price" required><br>
-
-        <input type="submit" value="Update Price">
-    </form>
-</div>
-
-<div class = "pro-qty">
-    <h2> Quantity/Amount: {{product['qty']}} </h2>
-
-    <form action="{{ url_for('admin.change_qty') }}" method="POST">
-
-        <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
-
-        <label for="qty_change">Add or Remove Amount</label>
-        <input type="number" min=-999999 max=999999 id="qty_change" name="qty_change" required><br>
-
-        <input type="hidden" name="old_qty" value="{{product['qty']}}">
-
-        <input type="submit" value="Change Quantity">
-    </form>
-</div>
+<!--    Back Button     -->
+<form action="{{ url_for('admin.admin') }}" method="POST">
+    <br> <button> Back </button>
+</form>
 
 
 {% endblock %}

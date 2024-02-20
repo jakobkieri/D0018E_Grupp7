@@ -1,6 +1,16 @@
 .image_small {
-    width: 30px;
+    width: 50px;
 }
+
+.product-view {
+    float: right;   /* Position the element to the right */
+    width: 40%;
+/*
+    border: 3px solid #73AD21;
+    padding: 10px;
+*/
+}
+
 
 .header {
     height: 100px;
