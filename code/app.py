@@ -83,7 +83,7 @@ def logout():
 #it checks if credentials are correct. If they are correct, it adds following to session: user_id (mail), username (username), role (1 if admin)
 def dockerCheckCredentials(givenMail, givenPassword):
     # Replace these values with your actual database connection details
-    host = '172.17.0.2'  # or the IP address of your Docker container
+    host = 'localhost'  # or the IP address of your Docker container
     port = 3306         # port number
     user = 'root'
     password = 'bingus'

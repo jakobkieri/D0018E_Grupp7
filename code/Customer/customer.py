@@ -5,11 +5,12 @@ customer_bp = Blueprint('customer', __name__,
                         template_folder='templates',
                         static_folder='static')
 
+host = 'localhost'
 
 
 @customer_bp.route("/", methods=["GET", "POST"])
 def customer():
-    connection = pymysql.connect(host='localhost',          #apparently connection cannot be global or pymysql commits die
+    connection = pymysql.connect(host=host,          #apparently connection cannot be global or pymysql commits die
                             user='root',
                             password='bingus',
                             database='mydb',
@@ -35,7 +36,7 @@ def enterProduct():
     
 @customer_bp.route("/product", methods=["GET", "POST"])
 def product():
-    connection = pymysql.connect(host='localhost',
+    connection = pymysql.connect(host=host,
                         user='root',
                         password='bingus',
                         database='mydb',

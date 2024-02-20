@@ -33,14 +33,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Products` (
   `pro_ID` VARCHAR(12) NOT NULL,
-  `pro_name` VARCHAR(255) NOT NULL,
+  `pro_name` VARCHAR(255) NULL,
   `pro_img` VARCHAR(255) NULL DEFAULT NULL,
   `pro_info` VARCHAR(1023) NULL DEFAULT NULL,
-  `qty` INT NOT NULL,
-  `price` INT UNSIGNED NOT NULL,
+  `qty` INT NULL,
+  `price` INT UNSIGNED NULL,
   PRIMARY KEY (`pro_ID`),
-  UNIQUE INDEX `pro_ID_UNIQUE` (`pro_ID` ASC) VISIBLE,
-  UNIQUE INDEX `pro_name_UNIQUE` (`pro_name` ASC) VISIBLE)
+  UNIQUE INDEX `pro_ID_UNIQUE` (`pro_ID` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -60,14 +59,10 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Reviews` (
   INDEX `fk_Reviews_Products1_idx` (`pro_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Reviews_Accounts`
     FOREIGN KEY (`acc_e-mail`)
-    REFERENCES `mydb`.`Accounts` (`e-mail`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `mydb`.`Accounts` (`e-mail`),
   CONSTRAINT `fk_Reviews_Products1`
     FOREIGN KEY (`pro_ID`)
-    REFERENCES `mydb`.`Products` (`pro_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `mydb`.`Products` (`pro_ID`))
 ENGINE = InnoDB;
 
 
@@ -88,14 +83,10 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Balance_Changes` (
   INDEX `fk_Balance_Changes_Products1_idx` (`pro_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Balance_Changes_Accounts1`
     FOREIGN KEY (`acc_e-mail`)
-    REFERENCES `mydb`.`Accounts` (`e-mail`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `mydb`.`Accounts` (`e-mail`),
   CONSTRAINT `fk_Balance_Changes_Products1`
     FOREIGN KEY (`pro_ID`)
-    REFERENCES `mydb`.`Products` (`pro_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `mydb`.`Products` (`pro_ID`))
 ENGINE = InnoDB;
 
 
@@ -113,14 +104,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Cart` (
   UNIQUE INDEX `cart_ID_UNIQUE` (`cart_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Cart_Accounts1`
     FOREIGN KEY (`acc_e-mail`)
-    REFERENCES `mydb`.`Accounts` (`e-mail`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `mydb`.`Accounts` (`e-mail`),
   CONSTRAINT `fk_Cart_Products1`
     FOREIGN KEY (`pro_ID`)
     REFERENCES `mydb`.`Products` (`pro_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+)
 ENGINE = InnoDB;
 
 
@@ -138,14 +126,10 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Orders` (
   INDEX `fk_Orders_Accounts1_idx` (`acc_e-mail` ASC) VISIBLE,
   CONSTRAINT `fk_Orders_Products1`
     FOREIGN KEY (`pro_ID`)
-    REFERENCES `mydb`.`Products` (`pro_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `mydb`.`Products` (`pro_ID`),
   CONSTRAINT `fk_Orders_Accounts1`
     FOREIGN KEY (`acc_e-mail`)
-    REFERENCES `mydb`.`Accounts` (`e-mail`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `mydb`.`Accounts` (`e-mail`))
 ENGINE = InnoDB;
 
 

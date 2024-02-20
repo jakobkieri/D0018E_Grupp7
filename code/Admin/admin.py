@@ -5,11 +5,13 @@ admin_bp = Blueprint('admin', __name__,
                         template_folder='templates',
                         static_folder='static')
 
+host = 'localhost'
+
 
 
 @admin_bp.route("/", methods=["GET", "POST"])
 def admin():
-    connection = pymysql.connect(host='localhost',
+    connection = pymysql.connect(host=host,
                              user='root',
                              password='bingus',
                              database='mydb',
@@ -28,7 +30,7 @@ def admin():
 
 @admin_bp.route("/add_product", methods=["GET", "POST"])
 def addProduct():
-    connection = pymysql.connect(host='localhost',
+    connection = pymysql.connect(host=host,
                     user='root',
                     password='bingus',
                     database='mydb',
@@ -50,7 +52,7 @@ def addProduct():
 
 @admin_bp.route("/product", methods=["GET", "POST"])
 def product():
-    connection = pymysql.connect(host='localhost',
+    connection = pymysql.connect(host=host,
                              user='root',
                              password='bingus',
                              database='mydb',
@@ -80,7 +82,7 @@ def enterProduct():
 def change_name():
     if "pro_ID" in request.form and "new_name" in request.form:
 
-        connection = pymysql.connect(host='localhost',
+        connection = pymysql.connect(host=host,
                              user='root',
                              password='bingus',
                              database='mydb',
@@ -109,7 +111,7 @@ def change_name():
 def change_info():
     if "pro_ID" in request.form and "new_info" in request.form:
 
-        connection = pymysql.connect(host='localhost',
+        connection = pymysql.connect(host=host,
                              user='root',
                              password='bingus',
                              database='mydb',
@@ -138,7 +140,7 @@ def change_info():
 def update_price():
     if "pro_ID" in request.form and "new_price" in request.form:
 
-        connection = pymysql.connect(host='localhost',
+        connection = pymysql.connect(host=host,
                              user='root',
                              password='bingus',
                              database='mydb',
@@ -166,7 +168,7 @@ def update_price():
 def change_qty():
     if "pro_ID" in request.form and "qty_change" in request.form and "old_qty" in request.form:
 
-        connection = pymysql.connect(host='localhost',
+        connection = pymysql.connect(host=host,
                              user='root',
                              password='bingus',
                              database='mydb',
@@ -197,7 +199,7 @@ def change_qty():
 def change_image():
     if "pro_ID" in request.form and "newImg" in request.form:
 
-        connection = pymysql.connect(host='localhost',
+        connection = pymysql.connect(host=host,
                              user='root',
                              password='bingus',
                              database='mydb',
