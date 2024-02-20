@@ -37,9 +37,10 @@ def addProduct():
                     charset='utf8mb4',
                     cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
-    sql = "SELECT pro_ID FROM Products ORDER BY pro_ID DESC LIMIT 0,1" # select the highest current id
+    sql = "SELECT pro_ID FROM Products ORDER BY pro_ID" # select the highest current id
     cursor.execute(sql)
-    result = cursor.fetchone()
+    result = cursor.fetchall()
+    print(result, file=sys.stderr)
     newId = int(result["pro_ID"]) + 1 
     print(newId, file=sys.stderr)
     sql = "INSERT INTO Products (pro_ID, pro_name, qty, price) VALUES (" + str(newId) +", 'placeholder"+str(newId)+"', 0, 0)"

@@ -32,7 +32,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Products`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Products` (
-  `pro_ID` VARCHAR(12) NOT NULL,
+  `pro_ID` INT NOT NULL,
   `pro_name` VARCHAR(255) NULL,
   `pro_img` VARCHAR(255) NULL DEFAULT NULL,
   `pro_info` VARCHAR(1023) NULL DEFAULT NULL,
@@ -47,22 +47,26 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Reviews`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Reviews` (
-  `re_ID` VARCHAR(12) NOT NULL,
+  `re_ID` INT NOT NULL,
   `comment` VARCHAR(255) NULL DEFAULT NULL,
   `nr_stars` TINYINT(1) NOT NULL,
   `date_created` DATE NULL DEFAULT NULL,
   `acc_e-mail` VARCHAR(320) NOT NULL,
-  `pro_ID` VARCHAR(12) NOT NULL,
+  `pro_ID` INT NOT NULL,
   PRIMARY KEY (`re_ID`),
   UNIQUE INDEX `re_ID_UNIQUE` (`re_ID` ASC) VISIBLE,
   INDEX `fk_Reviews_Accounts_idx` (`acc_e-mail` ASC) VISIBLE,
   INDEX `fk_Reviews_Products1_idx` (`pro_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Reviews_Accounts`
     FOREIGN KEY (`acc_e-mail`)
-    REFERENCES `mydb`.`Accounts` (`e-mail`),
+    REFERENCES `mydb`.`Accounts` (`e-mail`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Reviews_Products1`
     FOREIGN KEY (`pro_ID`)
-    REFERENCES `mydb`.`Products` (`pro_ID`))
+    REFERENCES `mydb`.`Products` (`pro_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -70,7 +74,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Balance_Changes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Balance_Changes` (
-  `change_ID` VARCHAR(12) NOT NULL,
+  `change_ID` INT NOT NULL,
   `is_purchase` TINYINT(1) NOT NULL,
   `qty` INT NOT NULL,
   `date` DATETIME NOT NULL,
@@ -83,10 +87,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Balance_Changes` (
   INDEX `fk_Balance_Changes_Products1_idx` (`pro_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Balance_Changes_Accounts1`
     FOREIGN KEY (`acc_e-mail`)
-    REFERENCES `mydb`.`Accounts` (`e-mail`),
+    REFERENCES `mydb`.`Accounts` (`e-mail`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Balance_Changes_Products1`
     FOREIGN KEY (`pro_ID`)
-    REFERENCES `mydb`.`Products` (`pro_ID`))
+    REFERENCES `mydb`.`Products` (`pro_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -96,19 +104,22 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`Cart` (
   `qty` INT NOT NULL,
   `acc_e-mail` VARCHAR(320) NOT NULL,
-  `pro_ID` VARCHAR(12) NOT NULL,
-  `cart_ID` VARCHAR(12) NOT NULL,
+  `pro_ID` INT NOT NULL,
+  `cart_ID` INT NOT NULL,
   PRIMARY KEY (`cart_ID`),
   INDEX `fk_Cart_Accounts1_idx` (`acc_e-mail` ASC) VISIBLE,
   INDEX `fk_Cart_Products1_idx` (`pro_ID` ASC) VISIBLE,
   UNIQUE INDEX `cart_ID_UNIQUE` (`cart_ID` ASC) VISIBLE,
   CONSTRAINT `fk_Cart_Accounts1`
     FOREIGN KEY (`acc_e-mail`)
-    REFERENCES `mydb`.`Accounts` (`e-mail`),
+    REFERENCES `mydb`.`Accounts` (`e-mail`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Cart_Products1`
     FOREIGN KEY (`pro_ID`)
     REFERENCES `mydb`.`Products` (`pro_ID`)
-)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -116,20 +127,24 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Orders`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Orders` (
-  `ord_ID` VARCHAR(12) NOT NULL,
+  `ord_ID` INT NOT NULL,
   `qty` INT UNSIGNED NOT NULL,
   `price` INT UNSIGNED NULL,
-  `pro_ID` VARCHAR(12) NOT NULL,
+  `pro_ID` INT NOT NULL,
   `acc_e-mail` VARCHAR(320) NOT NULL,
   PRIMARY KEY (`ord_ID`, `pro_ID`),
   INDEX `fk_Orders_Products1_idx` (`pro_ID` ASC) VISIBLE,
   INDEX `fk_Orders_Accounts1_idx` (`acc_e-mail` ASC) VISIBLE,
   CONSTRAINT `fk_Orders_Products1`
     FOREIGN KEY (`pro_ID`)
-    REFERENCES `mydb`.`Products` (`pro_ID`),
+    REFERENCES `mydb`.`Products` (`pro_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Orders_Accounts1`
     FOREIGN KEY (`acc_e-mail`)
-    REFERENCES `mydb`.`Accounts` (`e-mail`))
+    REFERENCES `mydb`.`Accounts` (`e-mail`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
