@@ -38,9 +38,9 @@ def addProduct():
                     charset='utf8mb4',
                     cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
-    sql = "SELECT pro_ID FROM Products ORDER BY pro_ID" # select the highest current id
+    sql = "SELECT pro_ID FROM Products ORDER BY pro_ID DESC LIMIT 0,1"  # select the highest current id
     cursor.execute(sql)
-    result = cursor.fetchall()
+    result = cursor.fetchone()
     print(result, file=sys.stderr)
     newId = int(result["pro_ID"]) + 1 
     print(newId, file=sys.stderr)
@@ -240,22 +240,22 @@ def change_qty():
         #print(result, file=sys.stderr)
 
 
-        sql = "SELECT change_ID FROM Balance_Changes ORDER BY change_ID" # select the highest current id
+        sql = "SELECT change_ID FROM Balance_Changes ORDER BY change_ID  DESC LIMIT 0,1" # select the highest current id
         cursor.execute(sql)
-        result = cursor.fetchall()
+        result = cursor.fetchone()
         print(result, file=sys.stderr)
 
         if result == None:  # if the result is NONE, then the database is empty
-            result = -1     # if the database is empty, just set result to -1 (the id will then be 0)
-
-        newId = int(result["change_ID"]) + 1 
+            newId = 0     # if the database is empty, just set result to -1 (the id will then be 0)
+        else:
+            newId = int(result["change_ID"]) + 1 
         #print(newId, file=sys.stderr)
 
         current_datetime = datetime.now()
         current_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
         #print(current_time_without_microseconds)
 
-        sql = "INSERT INTO Balance_Changes (change_ID, is_purchase, qty, date, acc_e-mail, pro_ID) VALUES (" + str(newId) + ", 0, " + str(qty_change) + ", " + str(current_datetime) + ", " + session['e-mail'] + " " + str(product_id) + ")"
+        sql = "INSERT INTO Balance_Changes (change_ID, is_purchase, qty, date, `acc_e-mail`, pro_ID) VALUES (" + str(newId) + ", 0, " + str(qty_change) + ", '" + str(current_datetime) + "', '" + session['e-mail'] + "', " + str(product_id) + ")"
         cursor.execute(sql)
 
         connection.commit()
