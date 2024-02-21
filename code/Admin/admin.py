@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, Blueprint
+from datetime import datetime
 import pymysql
 import sys
 admin_bp = Blueprint('admin', __name__, 
@@ -51,8 +52,57 @@ def addProduct():
     connection.commit()
     #print(query, file=sys.stderr)
     connection.close()
-    return redirect(url_for('admin.admin')) #replace with render product page
-   
+    return redirect(url_for('admin.admin')) # Replace with render product page
+
+
+@admin_bp.route("/delete_product", methods=["GET", "POST"])
+def deleteProduct():
+    if "pro_ID" in request.form:
+        connection = pymysql.connect(host=host,
+                        user='root',
+                        password='bingus',
+                        database='mydb',
+                        charset='utf8mb4',
+                        cursorclass=pymysql.cursors.DictCursor)
+        cursor = connection.cursor()
+
+        product_id = request.form.get('pro_ID')
+
+        try:
+            # Start a transaction
+            connection.begin()
+
+            # Delete related data first (Orders, Cart, Balance_Changes, Reviews)
+            delete_orders_sql = "UPDATE Orders SET pro_ID = NULL WHERE pro_ID = %s"
+            cursor.execute(delete_orders_sql, (product_id,))
+
+            delete_carts_sql = "DELETE FROM Cart WHERE pro_ID = %s"
+            cursor.execute(delete_carts_sql, (product_id,))
+
+            delete_balcha_sql = "DELETE FROM Balance_Changes WHERE pro_ID = %s"
+            cursor.execute(delete_balcha_sql, (product_id,))
+
+            delete_reviews_sql = "DELETE FROM Reviews WHERE pro_ID = %s"
+            cursor.execute(delete_reviews_sql, (product_id,))
+
+            # Then delete the product
+            delete_product_sql = "DELETE FROM Products WHERE pro_ID = %s"
+            cursor.execute(delete_product_sql, (product_id,))
+
+            # Commit changes to the database
+            connection.commit()
+
+            return redirect(url_for('admin.admin'))  # Redirect to main admin page after successful deletion
+
+        except Exception as e:
+            # Handle exceptions (e.g., database errors)
+            print(f"Error deleting product: {e}")
+            connection.rollback()
+            return "Error deleting product", 500
+        finally:
+            # Close the database connection
+            connection.close()
+
 
 @admin_bp.route("/product", methods=["GET", "POST"])
 def product():
@@ -190,7 +240,27 @@ def change_qty():
 
         cursor.execute(sql, params)
         result = cursor.fetchone()
+        #print(result, file=sys.stderr)
+
+
+        sql = "SELECT change_ID FROM Balance_Changes ORDER BY change_ID" # select the highest current id
+        cursor.execute(sql)
+        result = cursor.fetchall()
         print(result, file=sys.stderr)
+
+        if result == None:  # if the result is NONE, then the database is empty
+            result = -1     # if the database is empty, just set result to -1 (the id will then be 0)
+
+        newId = int(result["change_ID"]) + 1 
+        #print(newId, file=sys.stderr)
+
+        current_datetime = datetime.now()
+        current_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+        #print(current_time_without_microseconds)
+
+        sql = "INSERT INTO Balance_Changes (change_ID, is_purchase, qty, date, acc_e-mail, pro_ID) VALUES (" + str(newId) + ", 0, " + str(qty_change) + ", " + str(current_datetime) + ", " + session['e-mail'] + " " + str(product_id) + ")"
+        cursor.execute(sql)
+
         connection.commit()
         connection.close()
 
@@ -213,10 +283,9 @@ def change_image():
 
         product_id = request.form['pro_ID']
         newImg = request.form['newImg']
-        new_image_path = "/../static/images/" + newImg   # Adjust this path according to your directory structure
 
         sql = "UPDATE Products SET pro_img = %s WHERE pro_ID = %s"
-        params = (new_image_path, product_id)
+        params = (newImg, product_id)
 
         cursor.execute(sql, params)
         result = cursor.fetchone()

@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Orders` (
   `ord_ID` INT NOT NULL,
   `qty` INT UNSIGNED NOT NULL,
   `price` INT UNSIGNED NULL,
-  `pro_ID` INT NOT NULL,
+  `pro_ID` INT,
   `acc_e-mail` VARCHAR(320) NOT NULL,
   PRIMARY KEY (`ord_ID`, `pro_ID`),
   INDEX `fk_Orders_Products1_idx` (`pro_ID` ASC) VISIBLE,

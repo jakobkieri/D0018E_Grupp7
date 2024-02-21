@@ -17,7 +17,7 @@
 <form class = "main-product-form" name = "mainProduct" method = "POST" action="{{ url_for('admin.enterProduct')}}">
     <button class = "main-product" name = "pro_ID" value = "{{product['pro_ID']}}">
         <div class = "main-image-space">
-            <img class = "main-pro-img" src="{{ product['pro_img'] }}" alt="no image">
+            <img class = "main-pro-img" src="{{url_for('.static', filename = 'images/')}}{{ product['pro_img'] }}" alt="no image">
         </div>
         <div class = "main-info-space">
             <div class = "main-name">
