@@ -13,29 +13,31 @@
 
 
 <div class = product-wrapper>
-{% for product in products %}
-<form class = "main-product-form" name = "mainProduct" method = "POST" action="{{ url_for('customer.enterProduct')}}">
-    <button class = "main-product" name = "pro_ID" value = "{{product['pro_ID']}}">
-        <div class = "main-image-space">
-            <img class = "main-pro-img" src="../admin/static/images/{{product['pro_img']}}" alt="no image">
-        </div>
-        <div class = "main-info-space">
-            <div class = "main-name">
-                {{product['pro_name']}}
-            </div>
-            <div class = "main-info" value = "{{product['pro_ID']}}">
-                {{product['pro_info']}}
-            </div>
-            <div class ="main-price" value = "{{product['pro_ID']}}">
-                ${{product['price']}}
+{% for item in cartItems %}
+    <div class="cart-item">
+        <img class = "cart-img" src="../admin/static/images/{{item['pro_img']}}" alt = "No image" onerror="this.src='../admin/static/images/no-image.png'">
+        <div class = "cart-noimg-space">
+            {{item['pro_name']}}
+            <div class = "cart-input-space">
+                <div class ="cart-add-sub">
+                    <button>+</button>
+                    <button>-</button>
+                </div>
+                <input class="cart-qty" value = "{{item['qty']}}">
+                <div class = "cart-pro-price">${{item['price']}}</div>
             </div>
         </div>
-    </button>
-</form>
-
+    </div>
 {% endfor %}
-
 </div>
+<div class="cart-total">
+    <div class = "title">Total</div>
+    <div class = "sum">${{total}}</div>
+</div>
+
+<script>
+
+</script>
 
 {% endblock %}
 

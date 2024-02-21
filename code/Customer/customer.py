@@ -61,8 +61,12 @@ def cart():
                     charset='utf8mb4',
                     cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
-    sql = "SELECT * FROM Cart WHERE `acc_e-mail` = " + session["acc_name"]
+    sql = "SELECT * FROM Cart JOIN Products ON Products.pro_ID=Cart.pro_ID WHERE Products.pro_ID IN (SELECT `pro_ID` FROM Cart WHERE `acc_e-mail` = '" + session["e-mail"] + "');" # select all products in cart
     cursor.execute(sql)
     result = cursor.fetchall()
+    total = 0
+    for item in result:  #set price to total price of item in cart
+        item["price"] = int(item["price"])*int(item["qty"])
+        total += int(item["price"])
     print(result, file=sys.stderr)
-    return render_template("CusCart.html", title = "Customer Cart", cartItems = result)
+    return render_template("CusCart.html", title = "Customer Cart", cartItems = result, total = total)
