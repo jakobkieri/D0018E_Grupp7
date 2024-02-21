@@ -1,0 +1,45 @@
+{% extends 'CusBase.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class = "header">
+    <a class = "profile-button" href="/login"><img src = "{{url_for('static', filename = 'images/profile_c.png')}}"></a>
+    <a class = "cart-button" href="/customer/cart"><img src = "{{url_for('.static', filename = 'images/varukorg.png')}}"></a>
+</div>
+
+
+<div class = product-wrapper>
+{% for item in cartItems %}
+    <div class="cart-item">
+        <img class = "cart-img" src="../admin/static/images/{{item['pro_img']}}" alt = "No image" onerror="this.src='../admin/static/images/no-image.png'">
+        <div class = "cart-noimg-space">
+            {{item['pro_name']}}
+            <div class = "cart-input-space">
+                <div class ="cart-add-sub">
+                    <button>+</button>
+                    <button>-</button>
+                </div>
+                <input class="cart-qty" value = "{{item['qty']}}">
+                <div class = "cart-pro-price">${{item['price']}}</div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+<div class="cart-total">
+    <div class = "title">Total</div>
+    <div class = "sum">${{total}}</div>
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
