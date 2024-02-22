@@ -32,7 +32,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Products`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Products` (
-  `pro_ID` VARCHAR(12) NOT NULL,
+  `pro_ID` INT NOT NULL,
   `pro_name` VARCHAR(255) NULL,
   `pro_img` VARCHAR(255) NULL DEFAULT NULL,
   `pro_info` VARCHAR(1023) NULL DEFAULT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Reviews` (
   `nr_stars` TINYINT(1) NOT NULL,
   `date_created` DATE NULL DEFAULT NULL,
   `acc_e-mail` VARCHAR(320) NOT NULL,
-  `pro_ID` VARCHAR(12) NOT NULL,
+  `pro_ID` INT NOT NULL,
   PRIMARY KEY (`re_ID`),
   UNIQUE INDEX `re_ID_UNIQUE` (`re_ID` ASC) VISIBLE,
   INDEX `fk_Reviews_Accounts_idx` (`acc_e-mail` ASC) VISIBLE,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Balance_Changes` (
   `qty` INT NOT NULL,
   `date` DATETIME NOT NULL,
   `acc_e-mail` VARCHAR(320) NOT NULL,
-  `pro_ID` VARCHAR(12) NOT NULL,
+  `pro_ID` INT NOT NULL,
   PRIMARY KEY (`change_ID`),
   UNIQUE INDEX `change_ID_UNIQUE` (`change_ID` ASC) VISIBLE,
   UNIQUE INDEX `date_UNIQUE` (`date` ASC) VISIBLE,
@@ -104,7 +104,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`Cart` (
   `qty` INT NOT NULL,
   `acc_e-mail` VARCHAR(320) NOT NULL,
-  `pro_ID` VARCHAR(12) NOT NULL,
+  `pro_ID` INT NOT NULL,
   `cart_ID` INT NOT NULL,
   PRIMARY KEY (`cart_ID`),
   INDEX `fk_Cart_Accounts1_idx` (`acc_e-mail` ASC) VISIBLE,
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Orders` (
   `ord_ID` INT NOT NULL,
   `qty` INT UNSIGNED NOT NULL,
   `price` INT UNSIGNED NULL,
-  `pro_ID` VARCHAR(12),
+  `pro_ID` INT,
   `acc_e-mail` VARCHAR(320) NOT NULL,
   PRIMARY KEY (`ord_ID`, `pro_ID`),
   INDEX `fk_Orders_Products1_idx` (`pro_ID` ASC) VISIBLE,

@@ -10,7 +10,8 @@ host = 'localhost'
 
 @customer_bp.route("/", methods=["GET", "POST"])
 def customer():
-    connection = pymysql.connect(host=host,          #apparently connection cannot be global or pymysql commits die
+    connection = pymysql.connect(host='172.17.0.2',  # or the IP address of your Docker container
+    port = 3306,         # port number
                             user='root',
                             password='bingus',
                             database='mydb',
@@ -36,7 +37,8 @@ def enterProduct():
     
 @customer_bp.route("/product", methods=["GET", "POST"])
 def product():
-    connection = pymysql.connect(host=host,
+    connection = pymysql.connect(host='172.17.0.2',  # or the IP address of your Docker container
+    port = 3306,         # port number
                         user='root',
                         password='bingus',
                         database='mydb',
@@ -54,7 +56,8 @@ def product():
 
 @customer_bp.route("/cart", methods = ["GET", "POST"])
 def cart():
-    connection = pymysql.connect(host=host,
+    connection = pymysql.connect(host='172.17.0.2',  # or the IP address of your Docker container
+    port = 3306,         # port number
                     user='root',
                     password='bingus',
                     database='mydb',
