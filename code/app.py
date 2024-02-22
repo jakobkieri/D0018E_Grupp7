@@ -101,15 +101,19 @@ def dockerCheckCredentials(givenMail, givenPassword):
     
         with connection.cursor() as cursor:
             #insert test data into database -->
-            #sha3_256 of "bingusBoss" = "8c3307a4ed0336f039a2f295db21c4c664088ec1aa6e0a8961b68fb86556936d"
+            ##sha3_256 of "bingusBoss" = "8c3307a4ed0336f039a2f295db21c4c664088ec1aa6e0a8961b68fb86556936d"
             #sql_query = "INSERT INTO mydb.Accounts VALUES ('bingusBoss@hotmail.com', 'bingusBoss', '8c3307a4ed0336f039a2f295db21c4c664088ec1aa6e0a8961b68fb86556936d', '2024-02-15', 1);"
             #cursor.execute(sql_query)
-            
-            #sha3_256 of "bingus" = "b7171fb59379c940a27e2c7f4bf333797861eb30aed93bae8cc32e1c38a671d2"
+            #
+            ##sha3_256 of "bingus" = "b7171fb59379c940a27e2c7f4bf333797861eb30aed93bae8cc32e1c38a671d2"
             #sql_query = "INSERT INTO mydb.Accounts VALUES ('bingus@hotmail.com', 'bingus', 'b7171fb59379c940a27e2c7f4bf333797861eb30aed93bae8cc32e1c38a671d2', '2024-02-1', 0);"
             #cursor.execute(sql_query)
+            #
+            #sql_query = "INSERT INTO `mydb`.`Products` (`pro_ID`, `pro_name`, `pro_img`, `pro_info`, `qty`, `price`) VALUES ('0', 'Attans Banan', 'varukorg.png', 'Det är en attans banan', '0', '500');"
+            #cursor.execute(sql_query)
+            #sql_query = "INSERT INTO `mydb`.`Products` (`pro_ID`, `pro_name`, `pro_img`, `pro_info`, `qty`, `price`) VALUES ('1', 'Holy Goblin Banan', 'profile_a.png', 'Det är en holy goblin banan.', '10', '300');"
+            #cursor.execute(sql_query)
             #<--
-
             
             #take data from database, specifically mydb.Accounts
             sql_query = "SELECT * FROM mydb.Accounts;"
