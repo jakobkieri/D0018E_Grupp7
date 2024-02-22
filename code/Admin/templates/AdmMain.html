@@ -7,7 +7,7 @@
 {% block body %}
 
 <div class = "header">
-    <a class = "profile-button" href="/login"><img src = "{{url_for('.static', filename = 'images/profile_a.png')}}"></a>
+    <a class = "profile-button" href="{{ url_for('logout') }}"><img src = "{{url_for('.static', filename = 'images/profile_a.png')}}">Logout</a>
     <a class = "plus-button" href="{{url_for('admin.addProduct')}}"><img src = "{{url_for('.static', filename = 'images/plus_button.png')}}"></a>
 </div>
 
