@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <!--provided by chatGPT (after very much trial and error) -->
+    <script>
+        // Function to set the current date as the value of the hidden input field
+        function setCurrentDate() {
+            var currentDate = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
+            document.getElementById("date_created").value = currentDate;
+        }
+    </script>
+
+</head>
+<body>
+    <h2>Create</h2>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="POST" action="{{ url_for('createAccount') }}" onsubmit="setCurrentDate()">
+        <label for="e-mail">e-mail:</label>
+        <input type="text" id="e-mail" name="e-mail" required><br>
+
+        <label for="acc_name">account name:</label>
+        <input type="text" id="acc_name" name="acc_name" required><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        
+        <input type="hidden" id="date_created" name="date_created">
+        <input type="hidden" id="admin" name="admin" value="0">
+
+        
+        <input type="submit" value="createAccount">
+    </form>
+
+    <form method="POST" action="{{ url_for('createAccount') }}">Create</form>
+</body>
+</html>

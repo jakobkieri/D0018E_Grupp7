@@ -60,6 +60,67 @@ def role_redirect():
             return redirect(url_for("customer.customer"))
     return redirect(url_for("login"))
 
+@app.route('/createAccount', methods=['POST', 'GET'])
+def createAccount():
+    # If it's a GET request, render the login form
+    if request.method=="GET":
+        return render_template("createAccount.html")
+    
+    #"POST": proceed with account creation
+    newMail = request.form["e-mail"]
+        
+        
+    if databaseFindEmail(newMail):
+        return render_template("createAccount.html", error="Email not available")
+        
+
+    try:
+        # Connect to the database and put in new account
+        connection = pymysql.connect(
+                        host = '172.17.0.2',  # IP address of your Docker container
+                        port = 3306,         # port number
+                        user = 'root',
+                        password = 'bingus',
+                        database = 'mydb')
+        with connection.cursor() as cursor:
+            sql_query = "INSERT INTO mydb.Accounts VALUES (%s, %s, %s, %s, %s);"
+
+            #sha3-256 digest of password (from chatGPT) to check with stored hash of password
+            password = (request.form["password"]).encode('utf-8')
+            hash_object = hashlib.sha3_256()
+            hash_object.update(password)
+            password = hash_object.hexdigest()
+            #---
+
+            values = (request.form["e-mail"], request.form["acc_name"], password, request.form["date_created"], request.form["admin"])
+            cursor.execute(sql_query, values)
+
+            #testing -->
+            #take data from database, specifically mydb.Accounts
+            sql_query = "SELECT * FROM mydb.Accounts;"
+            cursor.execute(sql_query)
+
+            # Fetch results
+            rows = cursor.fetchall()
+            if rows:
+                for row in rows:
+                    print("Found:  ",  row)
+
+            #<--
+    
+            # Commit changes to the database
+            connection.commit()
+
+            # Close connection
+            connection.close()
+
+            redirect(url_for("login"))
+
+    except pymysql.Error as e:
+        print('Account Creation: Error connecting to MySQL:', e)
+        redirect(url_for("login"))
+
+
 
 @app.route('/test', methods=['POST', 'GET'])
 def test():
@@ -78,12 +139,57 @@ def logout():
     session.clear()                     # clears everything from session
     return redirect(url_for("login"))
 
+def databaseFindEmail(givenMail):
+    try:
+        # Connect to the database
+        connection = pymysql.connect(
+                        host = '172.17.0.2',  # IP address of your Docker container
+                        port = 3306,         # port number
+                        user = 'root',
+                        password = 'bingus',
+                        database = 'mydb')
+        with connection.cursor() as cursor:
+            #take data from database, specifically mydb.Accounts
+            sql_query = "SELECT * FROM mydb.Accounts;"
+            cursor.execute(sql_query)
+
+            #validCredentials is returned False if it is not verified by finding mathcing credentials
+            alreadyExists = False
+
+            # Fetch results
+            rows = cursor.fetchall()
+            if rows:
+                for row in rows:
+                    if(givenMail == row[0]):
+                        alreadyExists = True
+
+                        session['e-mail'] = row[0]     
+                        session["acc_name"] = row[1]
+                        session["admin"] = row[4]
+                        
+            else:
+                print("Account Creation: No data found.")
+
+        # Commit changes to the database
+        connection.commit()
+    
+        # Close connection
+        connection.close()
+
+        return alreadyExists
+
+    except pymysql.Error as e:
+        print('Account Creation: Error connecting to MySQL:', e)
+
+        
+
+
 
 #(code given by chatGPT but heavily modified)
 #it checks if credentials are correct. If they are correct, it adds following to session: user_id (mail), username (username), role (1 if admin)
 def dockerCheckCredentials(givenMail, givenPassword):
-    # Replace these values with your actual database connection details
-    host = '172.17.0.2'  # or the IP address of your Docker container
+    # database connection details
+    host = '172.17.0.2'  # IP address of your Docker container
     port = 3306         # port number
     user = 'root'
     password = 'bingus'
@@ -134,20 +240,19 @@ def dockerCheckCredentials(givenMail, givenPassword):
                         session["admin"] = row[4]
                         
             else:
-                print("No data found.")
-                return validCredentials
+                print("Login: No data found.")
 
         # Commit changes to the database
         connection.commit()
     
         # Close connection
         connection.close()
-        print('Connection closed')
+        #print('Login: Connection closed')
 
         return validCredentials
 
     except pymysql.Error as e:
-        print('Error connecting to MySQL:', e)
+        print('Login: Error connecting to MySQL:', e)
 
 # run on
 if __name__ == '__main__':
