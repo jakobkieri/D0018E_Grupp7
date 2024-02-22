@@ -83,7 +83,7 @@ def logout():
 #it checks if credentials are correct. If they are correct, it adds following to session: user_id (mail), username (username), role (1 if admin)
 def dockerCheckCredentials(givenMail, givenPassword):
     # Replace these values with your actual database connection details
-    host = 'localhost'  # or the IP address of your Docker container
+    host = '172.17.0.2'  # or the IP address of your Docker container
     port = 3306         # port number
     user = 'root'
     password = 'bingus'
@@ -100,7 +100,7 @@ def dockerCheckCredentials(givenMail, givenPassword):
         )
     
         with connection.cursor() as cursor:
-            #insert test data into database -->
+            ##insert test data into database -->
             ##sha3_256 of "bingusBoss" = "8c3307a4ed0336f039a2f295db21c4c664088ec1aa6e0a8961b68fb86556936d"
             #sql_query = "INSERT INTO mydb.Accounts VALUES ('bingusBoss@hotmail.com', 'bingusBoss', '8c3307a4ed0336f039a2f295db21c4c664088ec1aa6e0a8961b68fb86556936d', '2024-02-15', 1);"
             #cursor.execute(sql_query)
@@ -113,7 +113,7 @@ def dockerCheckCredentials(givenMail, givenPassword):
             #cursor.execute(sql_query)
             #sql_query = "INSERT INTO `mydb`.`Products` (`pro_ID`, `pro_name`, `pro_img`, `pro_info`, `qty`, `price`) VALUES ('1', 'Holy Goblin Banan', 'profile_a.png', 'Det är en holy goblin banan.', '10', '300');"
             #cursor.execute(sql_query)
-            #<--
+            ##<--
             
             #take data from database, specifically mydb.Accounts
             sql_query = "SELECT * FROM mydb.Accounts;"
