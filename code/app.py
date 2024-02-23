@@ -15,10 +15,10 @@ app.register_blueprint(admin_bp, url_prefix='/admin')
 
 
 #linux
-#connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb'}
+connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 #other (souce: Marcus)
-connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+#connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -79,7 +79,7 @@ def createAccount():
         # Connect to the database and put in new account
         connection = pymysql.connect(**connection_input)
         with connection.cursor() as cursor:
-            sql_query = "INSERT INTO mydb.Accounts VALUES (%s, %s, %s, %s, %s);"
+            sql_query = "INSERT INTO `mydb`.`Accounts` (`e-mail`, `acc_name`, `password`, `date_created`, `admin`) VALUES (%s, %s, %s, %s, %s);"
 
             #sha3-256 digest of password (from chatGPT) to check with stored hash of password
             password = (request.form["password"]).encode('utf-8')
@@ -187,11 +187,11 @@ def dockerCheckCredentials(givenMail, givenPassword):
         with connection.cursor() as cursor:
             ##insert test data into database -->
             ##sha3_256 of "bingusBoss" = "8c3307a4ed0336f039a2f295db21c4c664088ec1aa6e0a8961b68fb86556936d"
-            #sql_query = "INSERT INTO mydb.Accounts VALUES ('bingusBoss@hotmail.com', 'bingusBoss', '8c3307a4ed0336f039a2f295db21c4c664088ec1aa6e0a8961b68fb86556936d', '2024-02-15', 1);"
+            #sql_query = "INSERT INTO mydb.Accounts (`e-mail`, `acc_name`, `password`, `date_created`, `admin`) VALUES ('bingusBoss@hotmail.com', 'bingusBoss', '8c3307a4ed0336f039a2f295db21c4c664088ec1aa6e0a8961b68fb86556936d', '2024-02-15', 1)"
             #cursor.execute(sql_query)
             #
             ##sha3_256 of "bingus" = "b7171fb59379c940a27e2c7f4bf333797861eb30aed93bae8cc32e1c38a671d2"
-            #sql_query = "INSERT INTO mydb.Accounts VALUES ('bingus@hotmail.com', 'bingus', 'b7171fb59379c940a27e2c7f4bf333797861eb30aed93bae8cc32e1c38a671d2', '2024-02-1', 0);"
+            #sql_query = "INSERT INTO mydb.Accounts (`e-mail`, `acc_name`, `password`, `date_created`, `admin`) VALUES ('bingus@hotmail.com', 'bingus', 'b7171fb59379c940a27e2c7f4bf333797861eb30aed93bae8cc32e1c38a671d2', '2024-02-01', 0);"
             #cursor.execute(sql_query)
             #
             #sql_query = "INSERT INTO `mydb`.`Products` (`pro_ID`, `pro_name`, `pro_img`, `pro_info`, `qty`, `price`) VALUES ('0', 'Attans Banan', 'varukorg.png', 'Det är en attans banan', '0', '500');"
@@ -211,9 +211,10 @@ def dockerCheckCredentials(givenMail, givenPassword):
             rows = cursor.fetchall()
             if rows:
                 for row in rows:
-                    print(row)
-                    print(givenMail)
-                    print(givenPassword)
+                    print("row: ", row)
+                    print("givenMail: ",givenMail)
+                    print("givenPassword: ", givenPassword)
+                    
                     if(givenMail == row['e-mail'] and givenPassword == row['password']):
                         validCredentials = True
 
