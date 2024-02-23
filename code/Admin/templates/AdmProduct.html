@@ -20,7 +20,7 @@
             <input type="submit" value="Change Name">
         </form>
     </div>
-    
+
     <div class = "pro-info">
         <h2> Product Information: </h2>
         <p> {{product['pro_info']}} </p> <br>
@@ -92,6 +92,16 @@
         <input type="file" id="newImg" name="newImg" accept=".png,.jpg"><br>
 
         <input type="submit" value="Change Image">
+    </form>
+</div>
+
+<div> <br>
+    <form action="{{ url_for('admin.upload_image') }}" method="POST" enctype="multipart/form-data">
+
+        <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
+
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
     </form>
 </div>
 

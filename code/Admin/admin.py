@@ -2,23 +2,24 @@ from flask import Flask, render_template, request, redirect, url_for, session, B
 from datetime import datetime
 import pymysql
 import sys
+
+# to upload images
+import os
+from werkzeug.utils import secure_filename
+
 admin_bp = Blueprint('admin', __name__, 
                         template_folder='templates',
                         static_folder='static')
 
-host = 'localhost' #'172.17.0.2' #'localhost'
 
+#linux
+#connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb'}
 
-# I don't know what Jakob is doing, but now he only need to change stuff here!
+#other (souce: Markus)
+connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+
 def getConnection():
-    return pymysql.connect(host=host, #'172.17.0.2',    # or the IP address of your Docker container
-                                #port = 3306,           # port number
-                                user='root',
-                                password='bingus',
-                                database='mydb',
-                                charset='utf8mb4',
-                                cursorclass=pymysql.cursors.DictCursor)
-#--
+    return pymysql.connect(**connection_input)
 
 
 @admin_bp.route("/", methods=["GET", "POST"])
@@ -31,8 +32,6 @@ def admin():
     print(result, file=sys.stderr)
     connection.close()
     return render_template("AdmMain.html", title="Admin Main", products = result)
-
-
 
 
 @admin_bp.route("/add_product", methods=["GET", "POST"])
@@ -194,6 +193,7 @@ def update_price():
     else:
         return redirect(url_for('admin.admin'))         # Product not found
 
+
 @admin_bp.route('/change_qty', methods=["GET", "POST"])
 def change_qty():
     if "pro_ID" in request.form and "qty_change" in request.form and "old_qty" in request.form:
@@ -262,3 +262,25 @@ def change_image():
         return redirect(url_for("admin.product"))       # Product image updated successfully
     else:
         return redirect(url_for('admin.admin'))         # Product not found
+
+
+@admin_bp.route('/upload_image', methods=["GET", "POST"])
+def upload_image():
+    if "pro_ID" in request.form and "file" in request.files:
+
+        file = request.files['file']
+
+        if file.filename == "":
+            return redirect(url_for('admin.admin'))     # No selected file
+
+        '''
+        # Get the UPLOAD_FOLDER configuration value from current_app.config
+        UPLOAD_FOLDER = current_app.config['UPLOAD_FOLDER']
+
+        file_path = os.path.join(app.root_path, 'static', UPLOAD_FOLDER, secure_filename(file.filename))
+        file.save(file_path)
+        '''
+
+        return redirect(url_for("admin.product"))       # Product image uploaded successfully
+    else:
+        return redirect(url_for('admin.admin'))         # Product/Image not found

@@ -8,22 +8,17 @@ app = Flask(__name__)
 app.secret_key = "bingus" #secret key for sessions
 
 
-# Fixing Blueprints     ERROR!?
+# Fixing Blueprints
 app.register_blueprint(customer_bp, url_prefix='/customer')
 app.register_blueprint(admin_bp, url_prefix='/admin')
 
 
-'''
-@app.route('/')
-def index():
-    return render_template('login.html')
-'''
 
 #linux
-connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb'}
+#connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb'}
 
 #other (souce: Marcus)
-#connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -44,7 +39,7 @@ def login():
         password = hash_object.hexdigest()
         #---
 
-        #dockerCheckCredentials puts data into session if credentials are correct
+        # dockerCheckCredentials puts data into session if credentials are correct
         if not dockerCheckCredentials(userMail, password):
             return render_template("login.html", error="Invalid email or password")
 
@@ -157,12 +152,12 @@ def databaseFindEmail(givenMail):
             rows = cursor.fetchall()
             if rows:
                 for row in rows:
-                    if(givenMail == row[0]):
+                    if(givenMail == row['e-mail']):
                         alreadyExists = True
 
-                        session['e-mail'] = row[0]     
-                        session["acc_name"] = row[1]
-                        session["admin"] = row[4]
+                        session['e-mail'] = row['e-mail']     
+                        session["acc_name"] = row['acc_name']
+                        session["admin"] = row['admin']
                         
             else:
                 print("Account Creation: No data found.")
@@ -216,12 +211,15 @@ def dockerCheckCredentials(givenMail, givenPassword):
             rows = cursor.fetchall()
             if rows:
                 for row in rows:
-                    if(givenMail == row[0] and givenPassword == row[2]):
+                    print(row)
+                    print(givenMail)
+                    print(givenPassword)
+                    if(givenMail == row['e-mail'] and givenPassword == row['password']):
                         validCredentials = True
 
-                        session['e-mail'] = row[0]     
-                        session["acc_name"] = row[1]
-                        session["admin"] = row[4]
+                        session['e-mail'] = row['e-mail']     
+                        session["acc_name"] = row['acc_name']
+                        session["admin"] = row['admin']
                         
             else:
                 print("Login: No data found.")
