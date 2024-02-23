@@ -71,7 +71,10 @@
 
             <input type="hidden" name="pro_ID" value="{{product['pro_ID']}}">
 
-            <input type="submit" value="Delete Product">
+            <!-- Button with image -->
+            <button type="submit" class="delete-button">
+                <img class="image_small" src="{{url_for('.static', filename = 'images/soptunna.png')}}" alt="Delete Product">
+            </button>
         </form>
     </div>
 
