@@ -5,18 +5,15 @@ customer_bp = Blueprint('customer', __name__,
                         template_folder='templates',
                         static_folder='static')
 
-host = 'localhost'
+#linux
+connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb'}
 
+#other (souce: Marcus)
+#connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 @customer_bp.route("/", methods=["GET", "POST"])
 def customer():
-    connection = pymysql.connect(host='172.17.0.2',  # or the IP address of your Docker container
-    port = 3306,         # port number
-                            user='root',
-                            password='bingus',
-                            database='mydb',
-                            charset='utf8mb4',
-                            cursorclass=pymysql.cursors.DictCursor)
+    connection = pymysql.connect(**connection_input)
     cursor = connection.cursor()
     sql = "SELECT pro_name, pro_img, pro_info, price, pro_ID FROM Products"
     cursor.execute(sql)
@@ -37,13 +34,7 @@ def enterProduct():
     
 @customer_bp.route("/product", methods=["GET", "POST"])
 def product():
-    connection = pymysql.connect(host='172.17.0.2',  # or the IP address of your Docker container
-    port = 3306,         # port number
-                        user='root',
-                        password='bingus',
-                        database='mydb',
-                        charset='utf8mb4',
-                        cursorclass=pymysql.cursors.DictCursor)
+    connection = pymysql.connect(**connection_input)
     cursor = connection.cursor()
     sql = "SELECT * FROM Products WHERE pro_ID = " + session["pro_ID"]
     print(sql, file=sys.stderr)
@@ -56,13 +47,7 @@ def product():
 
 @customer_bp.route("/cart", methods = ["GET", "POST"])
 def cart():
-    connection = pymysql.connect(host='172.17.0.2',  # or the IP address of your Docker container
-    port = 3306,         # port number
-                    user='root',
-                    password='bingus',
-                    database='mydb',
-                    charset='utf8mb4',
-                    cursorclass=pymysql.cursors.DictCursor)
+    connection = pymysql.connect(**connection_input)
     cursor = connection.cursor()
     sql = "SELECT * FROM Cart JOIN Products ON Products.pro_ID=Cart.pro_ID WHERE Products.pro_ID IN (SELECT `pro_ID` FROM Cart WHERE `acc_e-mail` = '" + session["e-mail"] + "');" # select all products in cart
     cursor.execute(sql)
