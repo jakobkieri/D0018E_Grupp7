@@ -19,6 +19,12 @@ def index():
     return render_template('login.html')
 '''
 
+#linux
+connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb'}
+
+#other (souce: Marcus)
+#connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+
 @app.route('/', methods=['POST', 'GET'])
 def home():
     if request.method == "POST":
@@ -76,12 +82,7 @@ def createAccount():
 
     try:
         # Connect to the database and put in new account
-        connection = pymysql.connect(
-                        host = '172.17.0.2',  # IP address of your Docker container
-                        port = 3306,         # port number
-                        user = 'root',
-                        password = 'bingus',
-                        database = 'mydb')
+        connection = pymysql.connect(**connection_input)
         with connection.cursor() as cursor:
             sql_query = "INSERT INTO mydb.Accounts VALUES (%s, %s, %s, %s, %s);"
 
@@ -143,12 +144,7 @@ def logout():
 def databaseFindEmail(givenMail):
     try:
         # Connect to the database
-        connection = pymysql.connect(
-                        host = '172.17.0.2',  # IP address of your Docker container
-                        port = 3306,         # port number
-                        user = 'root',
-                        password = 'bingus',
-                        database = 'mydb')
+        connection = pymysql.connect(**connection_input)
         with connection.cursor() as cursor:
             #take data from database, specifically mydb.Accounts
             sql_query = "SELECT * FROM mydb.Accounts;"
@@ -189,22 +185,9 @@ def databaseFindEmail(givenMail):
 #(code given by chatGPT but heavily modified)
 #it checks if credentials are correct. If they are correct, it adds following to session: user_id (mail), username (username), role (1 if admin)
 def dockerCheckCredentials(givenMail, givenPassword):
-    # database connection details
-    host = '172.17.0.2'  # IP address of your Docker container
-    port = 3306         # port number
-    user = 'root'
-    password = 'bingus'
-    database = 'mydb'
-
     try:
         # Connect to the database
-        connection = pymysql.connect(
-            host=host,
-            port=port,
-            user=user,
-            password=password,
-            database=database
-        )
+        connection = pymysql.connect(**connection_input)
     
         with connection.cursor() as cursor:
             ##insert test data into database -->
