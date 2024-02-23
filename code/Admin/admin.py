@@ -227,7 +227,7 @@ def change_qty():
 
         current_datetime = datetime.now()
         current_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
-        #print(current_time_without_microseconds)
+        #print(current_datetime)
 
         sql = "INSERT INTO Balance_Changes (change_ID, is_purchase, qty, date, `acc_e-mail`, pro_ID) VALUES (" + str(newId) + ", 0, " + str(qty_change) + ", '" + str(current_datetime) + "', '" + session['e-mail'] + "', " + str(product_id) + ")"
         cursor.execute(sql)
