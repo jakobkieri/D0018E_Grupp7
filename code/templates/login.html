@@ -10,6 +10,9 @@
     {% if error %}
         <p style="color: red;">{{ error }}</p>
     {% endif %}
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
     <form method="POST" action="{{ url_for('login') }}">
         <label for="e-mail">e-mail:</label>
         <input type="text" id="e-mail" name="e-mail" required><br>
@@ -18,6 +21,9 @@
         <input type="submit" value="Login">
     </form>
 
-    <a href="{{ url_for('createAccount') }}">Create New Account</a>
+    <form action='/createAccount' method="GET">
+        <button type="submit" id="createAccountButton" class="button">Create New Account</button>
+    </form>
+
 </body>
 </html>

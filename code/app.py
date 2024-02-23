@@ -114,11 +114,12 @@ def createAccount():
             # Close connection
             connection.close()
 
-            redirect(url_for("login"))
+            #the specifics of message sent back is unimportant, it can be changed without changing
+            return render_template("login.html", message="Account Created Successfully")
 
     except pymysql.Error as e:
         print('Account Creation: Error connecting to MySQL:', e)
-        redirect(url_for("login"))
+        return render_template("login.html", error="account creation error")
 
 
 
