@@ -15,10 +15,10 @@ app.register_blueprint(admin_bp, url_prefix='/admin')
 
 
 #linux
-connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+#connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 #other (souce: Marcus)
-#connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -183,7 +183,7 @@ def dockerCheckCredentials(givenMail, givenPassword):
     try:
         # Connect to the database
         connection = pymysql.connect(**connection_input)
-    
+
         with connection.cursor() as cursor:
             ##insert test data into database -->
             ##sha3_256 of "bingusBoss" = "8c3307a4ed0336f039a2f295db21c4c664088ec1aa6e0a8961b68fb86556936d"
