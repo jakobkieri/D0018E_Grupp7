@@ -15,10 +15,10 @@ app.register_blueprint(admin_bp, url_prefix='/admin')
 
 
 #linux
-#connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 #other (souce: Marcus)
-connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+#connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -197,6 +197,12 @@ def dockerCheckCredentials(givenMail, givenPassword):
             #sql_query = "INSERT INTO `mydb`.`Products` (`pro_ID`, `pro_name`, `pro_img`, `pro_info`, `qty`, `price`) VALUES ('0', 'Attans Banan', 'varukorg.png', 'Det är en attans banan', '0', '500');"
             #cursor.execute(sql_query)
             #sql_query = "INSERT INTO `mydb`.`Products` (`pro_ID`, `pro_name`, `pro_img`, `pro_info`, `qty`, `price`) VALUES ('1', 'Holy Goblin Banan', 'profile_a.png', 'Det är en holy goblin banan.', '10', '300');"
+            #cursor.execute(sql_query)
+            #
+            #sql_query = "INSERT INTO `mydb`.`Orders` (`ord_ID`, `qty`, `price`, `pro_ID`, `acc_e-mail`) VALUES ('3124', '5', '314159', '1', 'bingus@hotmail.com');"
+            #cursor.execute(sql_query)
+            #
+            #sql_query = "INSERT INTO `mydb`.`Orders` (`ord_ID`, `qty`, `price`, `pro_ID`, `acc_e-mail`) VALUES ('314', '3', '4159', '1', 'bingus@hotmail.com');"
             #cursor.execute(sql_query)
             ##<--
             

@@ -9,6 +9,7 @@
 <div class = "header">
     <a class = "profile-button" href="{{ url_for('logout') }}"><img src = "{{url_for('.static', filename = 'images/profile_a.png')}}">Logout</a>
     <a class = "plus-button" href="{{url_for('admin.addProduct')}}"><img src = "{{url_for('.static', filename = 'images/plus_button.png')}}"></a>
+    <a class = "orderHistory-button" href="{{url_for('admin.enterOrderHistory')}}">Order History</a>
 </div>
 
 
@@ -24,7 +25,7 @@
                 {{product['pro_name']}}
             </div>
             <div class = "main-info" value = "{{product['pro_ID']}}">
-                {{product['pro_info']}}
+                {{ product['pro_info'] }}
             </div>
             <div class ="main-price" value = "{{product['pro_ID']}}">
                 ${{product['price']}}

@@ -104,3 +104,27 @@
     color: red;
     margin-left: 5px;
 }
+
+.orderHistory-ID {
+    margin-left: 5px;
+    font-size: 20px;
+    text-align: left;
+}
+
+.orderHistory-qty {
+    margin-left: 5px;
+    font-size: 15px;
+    text-align: left;
+}
+
+.orderHistory-price {
+    margin-left: 5px;
+    font-size: 15px;
+    text-align: left;
+}
+
+.orderHistory-customer {
+    margin-left: 5px;
+    font-size: 15px;
+    text-align: left;
+}

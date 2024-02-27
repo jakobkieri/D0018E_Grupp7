@@ -13,10 +13,10 @@ admin_bp = Blueprint('admin', __name__,
 
 
 #linux
-#connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 #other (souce: Markus)
-connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+#connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 def getConnection():
     return pymysql.connect(**connection_input)
@@ -284,3 +284,68 @@ def upload_image():
         return redirect(url_for("admin.product"))       # Product image uploaded successfully
     else:
         return redirect(url_for('admin.admin'))         # Product/Image not found
+
+@admin_bp.route("/enterOrderHistory", methods=["GET", "POST"])
+def enterOrderHistory():
+    try:
+        # Connect to the database
+        connection = pymysql.connect(**connection_input)
+        
+        #take order data from database
+        with connection.cursor() as cursor:
+            
+            #take order_IDs -->
+            sql_query = "SELECT * FROM mydb.Orders;"
+            cursor.execute(sql_query)
+
+            # Fetch results
+            rows = cursor.fetchall()
+
+            #create list of all order_IDs
+            order_IDs = []
+            if rows:
+                
+                for row in rows:
+                    if not (row["ord_ID"] in order_IDs):
+                        order_IDs.append(row["ord_ID"])
+            else:
+                print("enterOrderHistory, get order_IDs: No data found.")
+            
+            #<--
+                
+            #take and assemble parts of orders (from heavily modified chatGPT response) -->
+            orders = []
+            for ID in order_IDs:
+                sql_query = "SELECT * FROM mydb.Orders WHERE 'ord_ID' = %s"
+                cursor.execute(sql_query, (str(ID),))
+                rows = cursor.fetchall()
+                if rows:
+                    orders.append(rows)
+                else:
+                    print("enterOrderHistory, get order parts: No data found.")
+            #<--
+
+        print("orders: ", orders)
+        # Commit changes to the database
+        connection.commit()
+    
+        # Close connection
+        connection.close()
+        #print('Login: Connection closed')
+
+        return render_template("AdmOrderHistory.html", title="Order History", orders = orders)
+
+    except pymysql.Error as e:
+        print('Login: Error connecting to MySQL:', e)
+        return redirect(url_for("admin.admin"))
+    
+
+@admin_bp.route("/enterOrder", methods=["POST"])
+def enterOrder():
+    if "order_ID" in request.form:
+        currID = request.form['order_ID']
+        session['order_ID'] = currID
+        print("order_ID:  ", currID, " ———— file=sys.stderr: ",  file=sys.stderr)
+        return redirect(url_for("admin.order"))
+    else:
+        return redirect(url_for("admin.admin"))
