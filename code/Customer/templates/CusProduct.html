@@ -1,15 +1,51 @@
 {% extends 'CusBase.html' %}
 
 {% block head %}
-
 {% endblock %}
 
 {% block body %}
 
-<div class = "pro-name">{{product['pro_name']}} </div>
-<div class = "pro-info">{{product['pro_info']}}</div>
-<div class = "pro-price>">{{product['price']}} </div>
-<div class = "pro-qty"> {{product['qty']}}</div>
+<div class="product-view">
+
+    <div class = "pro-name">
+        <h2> {{product['pro_name']}} </h2>
+    </div>
+
+    <div class = "pro-info">
+        <h2> Product Information: </h2>
+        <p> {{product['pro_info']}} </p> <br>
+    </div>
+    
+    <div class = "pro-price>">
+        <h2> Price: $ {{product['price']}} </h2>
+    
+    </div>
+    
+    <div class = "pro-qty">
+        <h2> In stock: {{product['qty']}} </h2>
+    </div>
+
+    <form name = "addToCart" action = "{{url_for('customer.addToCart')}}" method = "POST">
+        <button value = "clicked">
+            Add to cart
+        </button>
+    </form>
+
+</div>
+
+
+<div>
+    <img src="../admin/static/images/{{product['pro_img'] }}">
+
+</div>
+
+
+
+
+<!--    Back Button     -->
+<form action="{{ url_for('customer.customer') }}" method="POST">
+    <br> <button> Back </button>
+</form>
 
 
 {% endblock %}

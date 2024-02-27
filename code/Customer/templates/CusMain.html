@@ -6,11 +6,6 @@
 
 {% block body %}
 
-<div class = "header">
-    <a class = "profile-button" href="{{ url_for('logout') }}"><img src = "{{url_for('static', filename = 'images/profile_c.png')}}">Logout</a>
-    <a class = "cart-button" href="/customer/cart"><img src = "{{url_for('.static', filename = 'images/varukorg.png')}}"></a>
-</div>
-
 
 <div class = product-wrapper>
 {% for product in products %}
