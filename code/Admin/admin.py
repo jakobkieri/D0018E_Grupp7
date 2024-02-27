@@ -13,7 +13,7 @@ admin_bp = Blueprint('admin', __name__,
 
 
 #linux
-connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+connection_input = {'host': 'localhost','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 #other (souce: Markus)
 #connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
@@ -67,7 +67,9 @@ def deleteProduct():
             # Start a transaction
             connection.begin()
 
-            # Delete related data first (Orders, Cart, Balance_Changes, Reviews)
+            # Delete related data first (Orders, Cart, Balance_Changes, Reviews) 
+            # Used as a primary key so we cannot set to null :(
+            # Maybe point to default deleted object product
             delete_orders_sql = "UPDATE Orders SET pro_ID = NULL WHERE pro_ID = %s"
             cursor.execute(delete_orders_sql, (product_id,))
 

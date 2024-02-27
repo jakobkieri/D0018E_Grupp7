@@ -5,38 +5,53 @@
 {% endblock %}
 
 {% block body %}
-
-<div class = "header">
-    <a class = "profile-button" href="/login"><img src = "{{url_for('static', filename = 'images/profile_c.png')}}"></a>
-    <a class = "cart-button" href="/customer/cart"><img src = "{{url_for('.static', filename = 'images/varukorg.png')}}"></a>
-</div>
-
-
-<div class = product-wrapper>
-{% for item in cartItems %}
-    <div class="cart-item">
-        <img class = "cart-img" src="../admin/static/images/{{item['pro_img']}}" alt = "No image" onerror="this.src='../admin/static/images/no-image.png'">
-        <div class = "cart-noimg-space">
-            {{item['pro_name']}}
-            <div class = "cart-input-space">
-                <div class ="cart-add-sub">
-                    <button>+</button>
-                    <button>-</button>
+<form id = "cart-form" name = "cart-form" action = "{{url_for('customer.cartForm')}}" method = "POST" onkeydown="return event.key != 'Enter';">
+    <div id = "productWrapper">
+    {% for item in cartItems %}
+        <div class="cart-item">
+            <img class = "cart-img" src="../admin/static/images/{{item['pro_img']}}" alt = "No image" onerror="this.src='../admin/static/images/no-image.png'">
+            <div class = "cart-noimg-space">
+                {{item['pro_name']}}
+                <div class = "cart-input-space">
+                    <input form = "cart-form" name = "{{item['pro_ID']}}" type = "number" min=0 max=999999 class="cart-qty" value = "{{item['qty']}}" required> 
+                    <div class = "cart-pro-price">${{item['price']}}</div>
                 </div>
-                <input class="cart-qty" value = "{{item['qty']}}">
-                <div class = "cart-pro-price">${{item['price']}}</div>
             </div>
         </div>
+    {% endfor %}
     </div>
-{% endfor %}
-</div>
-<div class="cart-total">
-    <div class = "title">Total</div>
-    <div class = "sum">${{total}}</div>
-</div>
+    <div class="cart-total">
+        <div class = "title">Total</div>
+        <div class = "sum">${{total}}</div>
+    </div>
+</form>
+
+
+<button name="isOrder" type = "submit" form = "cart-form" value="true">Place order</button>
 
 <script>
+    var items = document.getElementsByClassName("cart-qty");
+    console.log(items);
 
+
+    //make prev into dict with id as key
+    var prev = {};
+    
+
+    //for every input field
+    for (var i = 0; i < items.length; i++) {
+        prev[items[i].name] = items[i].value;
+        console.log(prev);
+        //add listener to see when change occurs (currently unused)
+        items[i].addEventListener('blur', function() {
+            if (prev[this.name] !== this.value) {
+                prev[this.name] = this.value;
+                console.log(prev);
+                console.log(this.form);
+                this.form.submit();
+            } 
+        })
+        };
 </script>
 
 {% endblock %}

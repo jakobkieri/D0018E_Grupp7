@@ -2,14 +2,6 @@
     width: 50px;
 }
 
-.product-view {
-    float: right;   /* Position the element to the right */
-    width: 40%;
-/*
-    border: 3px solid #73AD21;
-    padding: 10px;
-*/
-}
 
 .header {
     height: 100px;
@@ -91,16 +83,4 @@
     margin-left: 5px;
     font-size: 20px;
     text-align: left;
-}
-
-.main-pro-      /* Huuh?? */
-
-.pro-qty {
-    color: red;
-    margin-left: 5px;
-}
-
-.pro-price {
-    color: red;
-    margin-left: 5px;
 }

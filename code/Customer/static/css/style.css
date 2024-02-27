@@ -2,7 +2,7 @@
     width: 30px;
 }
 
-.product-wrapper {
+#productWrapper {
     width: 80%;
     margin-left: 10%; 
 }
@@ -52,16 +52,6 @@
     text-align: left;
 }
 
-.pro-qty {
-    color: red;
-    margin-left: 5px;
-}
-
-.pro-price {
-    color: red;
-    margin-left: 5px;
-}
-
 .header {
     height: 100px;
     width: 100%;
@@ -98,14 +88,6 @@
     align-items: left;
 }
 
-.cart-add-sub button{
-    padding-left: 5px;
-    align-items: vertical;
-    display: flex;
-    height: 20px;
-    width: 20px;
-}
-
 .cart-input-space {
     margin-top: 10px;
     align-items: horizontal;
@@ -120,10 +102,17 @@
     width: 100%;
 }
 
-.cart-input-space input {
+.qty-form {
     text-align: center;
     width: 30px;
+    height: 30px;
     margin-left: 5px;
+}
+
+.cart-qty {
+    text-align: center;
+    width: 30px;
+    height: 30px;
 }
 
 .cart-noimg-space {
@@ -147,3 +136,9 @@
     font-size: 20px;
     width: 100%;
 }
+
+.product-view {
+    float: right;   /* Position the element to the right */
+    width: 40%;
+}
+
