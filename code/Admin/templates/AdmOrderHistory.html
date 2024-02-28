@@ -19,16 +19,16 @@
         <button class = "main-product" name = "pro_ID">
             <div class = "main-info-space">
                 <div class = "orderHistory-ID">
-                    <h2>Order ID: {{ order.ord_ID }}</h2>
+                    <h2>Order ID: {{ order['ord_ID'] }}</h2>
                 </div>
                 <div class = "orderHistory-qty">
-                    <h3> <b>Total Quantity: </b> {{ order.qty }} </h1>
+                    <h3> <b>Total Quantity: </b> {{ order["total_qty"] }} </h1>
                 </div>
                 <div class ="orderHistory-price">
-                    <h3> <b>Total price: </b> $ {{ order.price }} </h1>
+                    <h3> <b>Total price: </b> $ {{ order["total_price"] }} </h1>
                 </div>
                 <div class ="orderHistory-customer">
-                    <h3> <b>Customer email: </b> {{ order.acc }} </h1>
+                    <h3> <b>Customer email: </b> {{ order['acc_e-mail'] }} </h1>
                 </div>
 
             </div>

@@ -313,18 +313,34 @@ def enterOrderHistory():
             else:
                 print("enterOrderHistory, get order_IDs: No data found.")
             
+            print("order_IDs: ", order_IDs)
             #<--
                 
             #take and assemble parts of orders (from heavily modified chatGPT response) -->
             orders = []
             for ID in order_IDs:
-                sql_query = "SELECT * FROM mydb.Orders WHERE 'ord_ID' = %s"
-                cursor.execute(sql_query, (str(ID),))
+                new_order = []
+                ord_ID = ID
+                total_qty = 0
+                total_price = 0
+                acc_email = ""
+
+                sql_query = "SELECT * FROM mydb.Orders WHERE ord_ID = %s"
+                cursor.execute(sql_query, (ID,))
                 rows = cursor.fetchall()
                 if rows:
-                    orders.append(rows)
+                    for row in rows:
+                        total_qty = total_qty + row["qty"]
+                        total_price = total_price + row["price"]
+                        acc_email = row["acc_e-mail"]
+
                 else:
                     print("enterOrderHistory, get order parts: No data found.")
+                
+                new_order = {"ord_ID": ord_ID, "total_qty": total_qty, "total_price": total_price, "acc_e-mail":acc_email}    
+                print("new_order ID: ", ID, " with content: ", new_order)
+                orders.append(new_order)
+                
             #<--
 
         print("orders: ", orders)
