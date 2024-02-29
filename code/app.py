@@ -205,8 +205,8 @@ def dockerCheckCredentials(givenMail, givenPassword):
             #sql_query = "INSERT INTO `mydb`.`Orders` (`ord_ID`, `qty`, `price`, `pro_ID`, `acc_e-mail`) VALUES ('314', '3', '4159', '1', 'bingus@hotmail.com');"
             #cursor.execute(sql_query)
             #
-            sql_query = "INSERT INTO `mydb`.`Orders` (`ord_ID`, `qty`, `price`, `pro_ID`, `acc_e-mail`) VALUES ('314', '1', '999999', '0', 'bingus@hotmail.com');"
-            cursor.execute(sql_query)
+            #sql_query = "INSERT INTO `mydb`.`Orders` (`ord_ID`, `qty`, `price`, `pro_ID`, `acc_e-mail`) VALUES ('314', '1', '999999', '0', 'bingus@hotmail.com');"
+            #cursor.execute(sql_query)
             ##<--
             
             #take data from database, specifically mydb.Accounts
