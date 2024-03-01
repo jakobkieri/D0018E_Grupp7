@@ -16,6 +16,15 @@
     margin-left: 20%;
 }
 
+.product-view {
+    float: right;   /* Position the element to the right */
+    width: 40%;
+/*
+    border: 3px solid #73AD21;
+    padding: 10px;
+*/
+}
+
 .profile-button {
     margin-left: 0;
 }
@@ -58,7 +67,6 @@
 .main-info-space {
     margin-left: 0;
 }
-
 
 .main-pro-img {
     border-radius: 12px;
