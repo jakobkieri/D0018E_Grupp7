@@ -185,13 +185,13 @@ def placeOrder():
             result = cursor.fetchone()
             #print(result, file=sys.stderr)
             if result == None:
-                newId = 0
+                newBalId = 0
             else:
-                newId = int(result["change_ID"]) + 1 
+                newBalId = int(result["change_ID"]) + 1 
             
             current_datetime = datetime.now()
             current_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
-            sql = "INSERT INTO Balance_Changes VALUES (" + str(newId) + ", 0, " + str(cartItem["qty"]) + ", '" + str(current_datetime) + "', '" + session["e-mail"] + "', "+ str(cartItem["pro_ID"]) + ");"
+            sql = "INSERT INTO Balance_Changes VALUES (" + str(newBalId) + ", 0, " + str(cartItem["qty"]) + ", '" + str(current_datetime) + "', '" + session["e-mail"] + "', "+ str(cartItem["pro_ID"]) + ");"
             cursor.execute(sql)    
             
             ### Insert order
