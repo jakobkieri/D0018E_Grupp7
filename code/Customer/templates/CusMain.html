@@ -9,6 +9,7 @@
 
 <div class = product-wrapper>
 {% for product in products %}
+{% if product["pro_ID"] != 0 %}
 <form class = "main-product-form" name = "mainProduct" method = "POST" action="{{ url_for('customer.enterProduct')}}">
     <button class = "main-product" name = "pro_ID" value = "{{product['pro_ID']}}">
         <div class = "main-image-space">
@@ -28,6 +29,7 @@
     </button>
 </form>
 
+{% endif %}
 {% endfor %}
 
 </div>

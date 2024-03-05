@@ -70,7 +70,7 @@ def deleteProduct():
             # Delete related data first (Orders, Cart, Balance_Changes, Reviews) 
             # Used as a primary key so we cannot set to null :(
             # Maybe point to default deleted object product
-            delete_orders_sql = "UPDATE Orders SET pro_ID = NULL WHERE pro_ID = %s"
+            delete_orders_sql = "UPDATE Orders SET pro_ID = 0 WHERE pro_ID = %s"
             cursor.execute(delete_orders_sql, (product_id,))
 
             delete_carts_sql = "DELETE FROM Cart WHERE pro_ID = %s"
@@ -210,6 +210,8 @@ def change_qty():
         qty_change = int(request.form['qty_change'])
         old_qty = int(request.form['old_qty'])
         new_qty = old_qty + qty_change
+        if new_qty < 0:
+            new_qty = 0
 
         sql = "UPDATE Products SET qty = %s WHERE pro_ID = %s"
         params = (new_qty, product_id)
