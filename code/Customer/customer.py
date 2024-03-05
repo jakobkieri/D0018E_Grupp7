@@ -7,7 +7,7 @@ customer_bp = Blueprint('customer', __name__,
                         static_folder='static')
 
 #linux
-connection_input = {'host': 'localhost','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 #other (souce: Marcus)
 #connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
@@ -183,7 +183,7 @@ def placeOrder():
             ### Insert order
             
             price = int(cartItem["qty"]) * int(proResult["price"])
-            sql = "INSERT INTO Orders VALUES (" + str(newId) + ", " + str(cartItem["qty"]) + ", " + str(price) + ", '" + session["e-mail"] + "', " + str(cartItem["pro_ID"]) + ");"
+            sql = "INSERT INTO mydb.Orders (`ord_ID`, `qty`, `price`, `acc_e-mail`, `pro_ID`) VALUES (" + str(newId) + ", " + str(cartItem["qty"]) + ", " + str(price) + ", '" + session["e-mail"] + "', " + str(cartItem["pro_ID"]) + ");"
             cursor.execute(sql)
 
             ### Delete cart item
