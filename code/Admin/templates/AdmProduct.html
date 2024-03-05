@@ -81,7 +81,7 @@
 </div>
 
 
-<div>
+<div class="pro-img-space">
     <img src="{{url_for('.static', filename = 'images/')}}{{ product['pro_img'] }}">
 
     <form action="{{ url_for('admin.change_image') }}" method="POST">
@@ -104,6 +104,27 @@
         <input type="submit" value="Upload">
     </form>
 </div>
+
+<div class = "comment-space"> 
+    Reviews: <br>
+    {% for review in reviews %}
+    <div class = "comment">
+        <div class = "comment-acc">
+            {{review["acc_e-mail"]}}
+        </div>
+        <div class = "comment-date">
+            {{review["date_created"]}}
+        </div>
+        <div class = "comment-rating">
+            {{review["nr_stars"]}}/5
+        </div>
+        <div class = "comment-content">
+            {{review["comment"]}}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
 
 
 <!--    Back Button     -->

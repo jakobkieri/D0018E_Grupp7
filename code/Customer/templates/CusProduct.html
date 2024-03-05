@@ -26,7 +26,7 @@
     </div>
 
     <form name = "addToCart" action = "{{url_for('customer.addToCart')}}" method = "POST">
-        <button value = "clicked">
+        <button class = "add-cart-button" value = "clicked">
             Add to cart
         </button>
     </form>
@@ -34,18 +34,46 @@
 </div>
 
 
-<div>
+<div class="pro-img-space">
     <img src="../admin/static/images/{{product['pro_img'] }}">
-
 </div>
 
+<div class = "comment-space"> 
+    <h3> Place review </h3>
+    <form name = "add-comment" action = "{{url_for('customer.addReview')}}" method = "POST" class="add-comment-space">
+        <input type = "number" min = "0" max = "5" name = "rating" class = "add-rating" required>/5
+        <textarea name = "content" class = "add-content" required></textarea>
+        <button class = "submit-review" type = "submit">Add/edit review</button>
+    </form>
+    <h3> Reviews </h3> 
+    Total: {{avg_rev}} <br>
+    {% for review in reviews %}
+    <div class = "comment">
+        <div class = "comment-acc">
+            {{review["acc_e-mail"]}}
+        </div>
+        <div class = "comment-date">
+            {{review["date_created"]}}
+        </div>
+        <div class = "comment-rating">
+            {{review["nr_stars"]}}/5
+        </div>
+        <div class = "comment-content">
+            {{review["comment"]}}
+        </div>
+        {% if user == review["acc_e-mail"]%}
+        <div class="delete-comment-space">
+            <form name = "delete-comment" action = "{{url_for('customer.delReview')}}" method = "POST">
+                <button type = "submit" class = "comment-delete">
+                    <img src="../admin/static/images/soptunna.png">
+                </button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
 
-
-
-<!--    Back Button     -->
-<form action="{{ url_for('customer.customer') }}" method="POST">
-    <br> <button> Back </button>
-</form>
 
 
 {% endblock %}

@@ -13,10 +13,10 @@ admin_bp = Blueprint('admin', __name__,
 
 
 #linux
-connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+#connection_input = {'host': '172.17.0.2','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 #other (souce: Markus)
-#connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 def getConnection():
     return pymysql.connect(**connection_input)
@@ -109,8 +109,11 @@ def product():
     cursor.execute(sql, (session["pro_ID"]))
     result = cursor.fetchone()
     print(result, file=sys.stderr)
+    sql = "SELECT * FROM Reviews WHERE pro_ID = %s"
+    cursor.execute(sql, (session["pro_ID"]))
+    reviews = list(cursor.fetchall())
     connection.close()
-    return render_template("AdmProduct.html", title="Admin Product", product = result)
+    return render_template("AdmProduct.html", title="Admin Product", product = result, reviews = reviews)
 
 
 @admin_bp.route("/enter", methods=["GET", "POST"])
