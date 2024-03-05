@@ -60,6 +60,7 @@
 
 .main-image-space {
     height: 100%;
+    width: 200px;
     display: flex;
     align-items: center;
 }
@@ -128,3 +129,66 @@
     font-size: 15px;
     text-align: left;
 }
+
+
+/* Comment space */
+
+.comment-space{
+    margin-left: 20%;
+    width: 60%;
+}
+
+.comment{
+    width: 100%;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.comment-acc {
+    font-size: 20px;
+    display: inline-block;
+}
+
+.comment-date {
+    display: inline-block;
+    font-size: 10px;
+    color: grey;
+}
+
+.comment-rating {
+    width: 80%;
+}
+
+.comment-content {
+    display: inline-block;
+    color: black;
+    overflow-y: auto;
+    width: 80%;
+    height: 60px;
+}
+
+/* Comment space end */
+
+/* Product start */
+
+.add-cart-button {
+    height: 40px;
+    width: 150px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border: none;
+}
+
+.pro-img-space {
+    width: 500px;
+    height: 500px;
+    max-width: 50%;
+}
+.pro-img-space img {
+    width: 100%;
+}
+
+/* Product end */

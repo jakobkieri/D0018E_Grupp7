@@ -7,10 +7,10 @@ customer_bp = Blueprint('customer', __name__,
                         static_folder='static')
 
 #linux
-connection_input = {'host': 'localhost','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+#connection_input = {'host': 'localhost','port': 3306, 'user': 'root','password': 'bingus','database': 'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 #other (souce: Marcus)
-#connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
+connection_input = {"host":"localhost","user":'root',"password":'bingus',"database":'mydb',"charset":'utf8mb4',"cursorclass":pymysql.cursors.DictCursor}
 
 
 def getConnection():
@@ -44,10 +44,24 @@ def product():
     cursor = connection.cursor()
     sql = "SELECT * FROM Products WHERE pro_ID = %s"
     cursor.execute(sql, (session["pro_ID"]))
-    result = cursor.fetchone()
-    print(result, file=sys.stderr)
+    product = cursor.fetchone()
+    print(product, file=sys.stderr)
+    sql = "SELECT * FROM Reviews WHERE pro_ID = %s"
+    cursor.execute(sql, (session["pro_ID"]))
+    reviews = list(cursor.fetchall())
+
+    ###Get average rating
+
+    ratings = []
+    for review in reviews:
+        ratings.append(int(review["nr_stars"]))
+    if len(ratings) > 0:
+        avg_rev = str(sum(ratings) / len(ratings))
+    else:
+        avg_rev = "No reviews"
+    #print(reviews, file=sys.stderr)
     connection.close()
-    return render_template("CusProduct.html", title="Customer Product", product = result)
+    return render_template("CusProduct.html", title="Customer Product", product = product, reviews = reviews, user = session["e-mail"], avg_rev = avg_rev)
 
 
 @customer_bp.route("/cart", methods = ["GET", "POST"])
@@ -71,7 +85,7 @@ def addToCart():
     sql = "SELECT * FROM Products WHERE pro_ID = %s"
     cursor.execute(sql, (session["pro_ID"]))
     result = cursor.fetchone()
-    print(result, file=sys.stderr)
+    #print(result, file=sys.stderr)
     qty = result["qty"] 
     if qty > 0:
         sql = "SELECT cart_ID FROM Cart ORDER BY cart_ID DESC LIMIT 0,1" # select the highest current id
@@ -88,7 +102,7 @@ def addToCart():
         sql = "SELECT * FROM Cart WHERE pro_ID = " + str(session["pro_ID"]) + " AND `acc_e-mail` = '" + session["e-mail"] + "';"
         cursor.execute(sql)
         result = cursor.fetchone()
-        print(result, file=sys.stderr)
+        #print(result, file=sys.stderr)
         if result == None:
             sql = "INSERT INTO Cart VALUES (1, '" + session["e-mail"] + "', " + str(session["pro_ID"]) + ", " + str(newId) + ");" 
             cursor.execute(sql)
@@ -194,5 +208,48 @@ def placeOrder():
     connection.close()
 
 
-def abortOrder():
-    return redirect(url_for('customer.cart'))
+@customer_bp.route("/product/addReview", methods=["POST", "GET"])
+def addReview():
+    print(request.form, file=sys.stderr)
+    connection = getConnection()
+    cursor = connection.cursor()
+    productId = session["pro_ID"]
+    userMail = session["e-mail"]
+    stars = request.form["rating"]
+    content = request.form["content"]
+    sql = "SELECT * FROM Reviews WHERE pro_ID = " + productId + " AND `acc_e-mail` = '" + userMail + "';"
+    cursor.execute(sql)
+    review = cursor.fetchone()
+
+    if review:
+        reviewId = review["re_ID"]
+        sql = "UPDATE Reviews SET `nr_stars` = " + str(stars) + ", comment = '" + content + "' WHERE re_ID = " + str(reviewId) + ";"
+        cursor.execute(sql)
+    else: 
+        sql = "SELECT re_ID FROM Reviews ORDER BY re_ID DESC LIMIT 0,1" # select the highest current id
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        #print(result, file=sys.stderr)
+        if result == None:
+            newId = 0
+        else:
+            newId = int(result["re_ID"]) + 1 
+        date = datetime.now()
+        date = date.strftime("%y/%m/%d")
+        sql = "INSERT INTO Reviews VALUES (" + str(newId) + ", '" + content + "', " + str(stars) + ", '" + str(date) + "', '" + userMail + "', " + str(productId) + ");"
+        cursor.execute(sql) 
+    connection.commit()
+    connection.close()
+    return redirect(url_for("customer.product"))
+
+@customer_bp.route("/product/delReview", methods=["POST", "GET"])
+def delReview():
+    connection = getConnection()
+    cursor = connection.cursor()
+    productId = session["pro_ID"]
+    email = session["e-mail"]
+    sql = "DELETE FROM Reviews WHERE pro_ID = " + str(productId) + " AND `acc_e-mail` = '" + email + "';"
+    cursor.execute(sql)
+    connection.commit()
+    connection.close()
+    return redirect(url_for("customer.product"))
