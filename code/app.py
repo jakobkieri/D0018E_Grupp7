@@ -220,9 +220,9 @@ def dockerCheckCredentials(givenMail, givenPassword):
             rows = cursor.fetchall()
             if rows:
                 for row in rows:
-                    print("row: ", row)
-                    print("givenMail: ",givenMail)
-                    print("givenPassword: ", givenPassword)
+                    #print("row: ", row)
+                    #print("givenMail: ",givenMail)
+                    #print("givenPassword: ", givenPassword)
                     
                     if(givenMail == row['e-mail'] and givenPassword == row['password']):
                         validCredentials = True

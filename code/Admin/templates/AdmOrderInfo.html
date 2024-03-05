@@ -1,0 +1,28 @@
+{% extends 'AdmBase.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+<div class = "header">
+    <!--    Back Button     -->
+    <form action="{{ url_for('admin.enterOrderHistory') }}" method="POST">
+        <br> <button> Back </button>
+    </form>
+</div>
+
+<!-- <div class = product-wrapper> -->
+    {% for orderpart in orderparts %}
+            <div class = "orderInfo-info-space">
+                    <h2> Product ID: {{ orderpart["pro_ID"] }} </h2>
+                    <h3> <b>Quantity:</b> {{ orderpart["qty"] }} </h1> 
+                <h3> <b>Total Price:</b> $ {{ orderpart["price"] }} </h1>
+            </div>
+    {% endfor %}
+<!-- </div> -->
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

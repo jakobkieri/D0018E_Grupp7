@@ -311,14 +311,14 @@ def enterOrderHistory():
             #create list of all order_IDs
             order_IDs = []
             if rows:
-                
                 for row in rows:
+                    print("order part: ", row)
                     if not (row["ord_ID"] in order_IDs):
                         order_IDs.append(row["ord_ID"])
             else:
                 print("enterOrderHistory, get order_IDs: No data found.")
             
-            print("order_IDs: ", order_IDs)
+            #print("order_IDs: ", order_IDs)
             #<--
                 
             #take and assemble parts of orders (from heavily modified chatGPT response) -->
@@ -343,12 +343,12 @@ def enterOrderHistory():
                     print("enterOrderHistory, get order parts: No data found.")
                 
                 new_order = {"ord_ID": ord_ID, "total_qty": total_qty, "total_price": total_price, "acc_e-mail":acc_email}    
-                print("new_order ID: ", ID, " with content: ", new_order)
+                #print("new_order ID: ", ID, " with content: ", new_order)
                 orders.append(new_order)
                 
             #<--
 
-        print("orders: ", orders)
+        #print("orders: ", orders)
         # Commit changes to the database
         connection.commit()
     
@@ -363,12 +363,30 @@ def enterOrderHistory():
         return redirect(url_for("admin.admin"))
     
 
-@admin_bp.route("/enterOrder", methods=["POST"])
-def enterOrder():
-    if "order_ID" in request.form:
-        currID = request.form['order_ID']
-        session['order_ID'] = currID
-        print("order_ID:  ", currID, " ———— file=sys.stderr: ",  file=sys.stderr)
-        return redirect(url_for("admin.order"))
-    else:
+@admin_bp.route("/enterOrderInfo", methods=["POST", "GET"])
+def enterOrderInfo():
+    try:
+        # Connect to the database
+        connection = pymysql.connect(**connection_input)
+        
+        #take order data from database
+        orderparts = []
+        with connection.cursor() as cursor:    
+            sql_query = "SELECT * FROM mydb.Orders WHERE ord_ID = %s"
+            cursor.execute(sql_query, (request.form["ord_ID"],))
+            rows = cursor.fetchall()
+            if rows:
+                for row in rows:
+                    orderparts.append(row)
+            else:
+                print("enterOrderInfo, get order parts: No data found.")
+        print(orderparts)
+
+        connection.commit()
+        connection.close()
+
+        return render_template("AdmOrderInfo.html", title="Order Info", orderparts = orderparts)
+
+    except pymysql.Error as e:
+        print('Login: Error connecting to MySQL:', e)
         return redirect(url_for("admin.admin"))

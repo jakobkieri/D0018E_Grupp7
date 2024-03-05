@@ -65,8 +65,18 @@
     align-items: center;
 }
 
-.main-info-space {
-    margin-left: 0;
+.orderInfo-info-space {
+    margin-left: 10%;     /* this was the original */
+
+    height: 150px;
+    width: 60%;
+
+    border-style: groove;
+    border-radius: 10px;
+    border-color:#ff9999;
+
+    margin-top: 5%;
+    align-items: left;
 }
 
 .main-pro-img {

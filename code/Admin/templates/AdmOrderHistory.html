@@ -15,9 +15,9 @@
 
 <div class = product-wrapper>
     {% for order in orders %}
-    <form class = "main-product-form" name = "mainProduct" method = "POST" action="">
-        <button class = "main-product" name = "pro_ID">
-            <div class = "main-info-space">
+    <form class = "main-product-form" name = "mainProduct" method = "POST" action="{{ url_for('admin.enterOrderInfo') }}">
+        <button class = "main-product" name = "ord_ID" value = "{{ order['ord_ID'] }}">
+            <div class = "main-info-space1">
                 <div class = "orderHistory-ID">
                     <h2>Order ID: {{ order['ord_ID'] }}</h2>
                 </div>
