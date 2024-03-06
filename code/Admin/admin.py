@@ -112,8 +112,15 @@ def product():
     sql = "SELECT * FROM Reviews WHERE pro_ID = %s"
     cursor.execute(sql, (session["pro_ID"]))
     reviews = list(cursor.fetchall())
+    ratings = []
+    for review in reviews:
+        ratings.append(int(review["nr_stars"]))
+    if len(ratings) > 0:
+        avg_rev = str(sum(ratings) / len(ratings))
+    else:
+        avg_rev = "No reviews"
     connection.close()
-    return render_template("AdmProduct.html", title="Admin Product", product = result, reviews = reviews)
+    return render_template("AdmProduct.html", title="Admin Product", product = result, reviews = reviews, avg_rev = avg_rev)
 
 
 @admin_bp.route("/enter", methods=["GET", "POST"])

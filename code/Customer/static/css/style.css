@@ -267,6 +267,7 @@ h3 {
     width: 500px;
     height: 500px;
     max-width: 50%;
+    display: inline-block;
 }
 
 .pro-img-space img {
@@ -274,8 +275,14 @@ h3 {
 }
 
 .product-view {
-    float: right;   /* Position the element to the right */
+    vertical-align: top;
+    display: inline-block;   /* Position the element to the right */
     width: 40%;
+    margin-top: 0px;
+}
+
+.pro-price {
+    font-size: 30px;
 }
 
 /* Product end */

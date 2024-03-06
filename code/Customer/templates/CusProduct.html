@@ -5,6 +5,10 @@
 
 {% block body %}
 
+<div class="pro-img-space">
+    <img src="../admin/static/images/{{product['pro_img'] }}">
+</div>
+
 <div class="product-view">
 
     <div class = "pro-name">
@@ -12,12 +16,11 @@
     </div>
 
     <div class = "pro-info">
-        <h2> Product Information: </h2>
         <p> {{product['pro_info']}} </p> <br>
     </div>
     
     <div class = "pro-price>">
-        <h2> Price: $ {{product['price']}} </h2>
+        <h2> $ {{product['price']}} </h2>
     
     </div>
     
@@ -33,10 +36,6 @@
 
 </div>
 
-
-<div class="pro-img-space">
-    <img src="../admin/static/images/{{product['pro_img'] }}">
-</div>
 
 <div class = "comment-space"> 
     <h3> Place review </h3>

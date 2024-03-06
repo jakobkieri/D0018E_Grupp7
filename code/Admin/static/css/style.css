@@ -17,7 +17,7 @@
 }
 
 .product-view {
-    float: right;   /* Position the element to the right */
+    display: inline-block;   /* Position the element to the right */
     width: 40%;
 /*
     border: 3px solid #73AD21;
@@ -193,9 +193,11 @@
 }
 
 .pro-img-space {
+    vertical-align: top;
     width: 500px;
     height: 500px;
     max-width: 50%;
+    display: inline-block;
 }
 .pro-img-space img {
     width: 100%;
