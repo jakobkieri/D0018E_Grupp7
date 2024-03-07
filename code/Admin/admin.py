@@ -70,7 +70,7 @@ def deleteProduct():
             # Delete related data first (Orders, Cart, Balance_Changes, Reviews) 
             # Used as a primary key so we cannot set to null :(
             # Maybe point to default deleted object product
-            delete_orders_sql = "UPDATE Orders SET pro_ID = 0 WHERE pro_ID = %s"
+            delete_orders_sql = "DELETE FROM Orders WHERE pro_ID = %s"
             cursor.execute(delete_orders_sql, (product_id,))
 
             delete_carts_sql = "DELETE FROM Cart WHERE pro_ID = %s"
